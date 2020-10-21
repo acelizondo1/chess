@@ -105,3 +105,23 @@ describe Bishop do
     end
   end
 end
+
+describe Rook do 
+  let(:rook) do 
+    @rook = Rook.new("white", ['d', 5])
+  end
+
+  describe "#make_move" do
+    it "returns new rook positon on backward move" do
+      expect(rook.make_move(['d', 2])).to eql(['d', 2])
+    end
+
+    it "returns false if new_positon is a diagonal of current positon" do
+      expect(rook.make_move(['e', 4])).to eql(false)
+    end
+
+    it "returns false if new_positon not a straight line of current position" do
+      expect(rook.make_move(['g', 3])).to eql(false)
+    end
+  end
+end
