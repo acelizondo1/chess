@@ -85,3 +85,23 @@ describe Queen do
     end
   end
 end
+
+describe Bishop do
+  let(:bishop) do
+    @bishop = Bishop.new("white", ['d', 5])
+  end
+
+  describe "#make_move" do
+    it "returns new bishop position on diagonal forward, left move of 3" do
+      expect(bishop.make_move(['a', 8])).to eql(['a', 8])
+    end
+
+    it "returns new bishop position on diagonal behind left move" do
+      expect(bishop.make_move(['a', 2])).to eql(['a', 2])
+    end
+
+    it "returns false if move is not a diagonal of current positon" do
+      expect(bishop.make_move(['a', 5])).to eql(false)
+    end
+  end
+end

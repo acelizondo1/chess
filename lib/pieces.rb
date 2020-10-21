@@ -89,8 +89,12 @@ class Bishop < GamePiece
     super(color, position)
   end
 
-  def make_move(position)
-    reutrn false
+  def make_move(new_position)
+    if is_move_diagonal?(new_position)
+      @position = new_position
+    else
+      false
+    end
   end
 end
 
