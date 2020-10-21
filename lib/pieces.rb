@@ -52,7 +52,7 @@ class GamePiece
   end
 
   def make_move(position)
-    reutrn false
+    return false
   end
 end
 
@@ -76,7 +76,7 @@ class Queen < GamePiece
   end
 
   def make_move(position)
-    reutrn false
+    
   end
 end
 
