@@ -9,9 +9,11 @@ class GamePiece
     side = position[0] <=> new_position[0]
     front_back = position[1] <=> new_position[1]
     if (front_back == 1 || front_back == -1) && side == 0
-      true
+      difference = position[1] - new_position[1]
+      difference > 0 ? difference : difference * -1
     elsif (side == 1 || side == -1) && front_back == 0
-      true
+      difference = position[0].ord - new_position[0].ord
+      difference > 0 ? difference : difference * -1
     else
       false
     end
@@ -25,22 +27,22 @@ class GamePiece
     case direction
       when [1,1]
         for x in (new_position[0]..@position[0]).reverse_each
-          return true if new_position == [x, @position[1]-iteration]
+          return iteration if new_position == [x, @position[1]-iteration]
           iteration += 1
         end
       when [1,-1]
         for x in (new_position[0]..@position[0]).reverse_each
-          return true if new_position == [x, @position[1]+iteration]
+          return iteration if new_position == [x, @position[1]+iteration]
           iteration += 1
         end
       when [-1,1]
         for x in @position[0]..new_position[0]
-          return true if new_position == [x, @position[1]-iteration]
+          return iteration if new_position == [x, @position[1]-iteration]
           iteration += 1
         end
       when [-1,-1]
         for x in @position[0]..new_position[0]
-          return true if new_position == [x, @position[1]+iteration]
+          return iteration if new_position == [x, @position[1]+iteration]
           iteration += 1
         end
       else
@@ -48,11 +50,19 @@ class GamePiece
       end
       false
   end
+
+  def make_move(position)
+    reutrn false
+  end
 end
 
 class King < GamePiece
   def initialize(color,position)
     super(color, position)
+  end
+
+  def make_move(position)
+    
   end
 end
 
@@ -60,11 +70,19 @@ class Queen < GamePiece
   def initialize(color,position)
     super(color, position)
   end
+
+  def make_move(position)
+    reutrn false
+  end
 end
 
 class Bishop < GamePiece
   def initialize(color,position)
     super(color, position)
+  end
+
+  def make_move(position)
+    reutrn false
   end
 end
 
@@ -72,16 +90,28 @@ class Knight < GamePiece
   def initialize(color,position)
     super(color, position)
   end
+
+  def make_move(position)
+    reutrn false
+  end
 end
 
 class Rook < GamePiece
   def initialize(color,position)
     super(color, position)
   end
+
+  def make_move(position)
+    reutrn false
+  end
 end
 
 class Pawn < GamePiece
   def initialize(color,position)
     super(color, position)
+  end
+
+  def make_move(position)
+    reutrn false
   end
 end

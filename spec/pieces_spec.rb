@@ -6,12 +6,12 @@ describe GamePiece do
   end
 
   describe "#is_move_straight?" do
-    it "returns true if new_position is 1 place forward" do
-      expect(piece.is_move_straight?(['d', 6])).to eql(true)
+    it "returns 1 if new_position is 1 place forward" do
+      expect(piece.is_move_straight?(['d', 6])).to eql(1)
     end
 
-    it "returns true if new_position is 4 places to the side" do
-      expect(piece.is_move_straight?(['h', 5])).to eql(true)
+    it "returns 4 if new_position is 4 places to the side" do
+      expect(piece.is_move_straight?(['h', 5])).to eql(4)
     end
 
     it "returns false if new_position is diagonal 3 places" do
@@ -24,20 +24,20 @@ describe GamePiece do
   end
 
   describe "#is_move_diagonal?" do
-    it "returns true if new_position is diagonal forward 1 spot" do
-      expect(piece.is_move_diagonal?(['e', 6])).to eql(true)
+    it "returns 1 if new_position is diagonal forward 1 spot" do
+      expect(piece.is_move_diagonal?(['e', 6])).to eql(1)
     end
 
-    it "returns true if new_position is diagonal forward, left 3 spot" do
-      expect(piece.is_move_diagonal?(['a', 8])).to eql(true)
+    it "returns 3 if new_position is diagonal forward, left 3 spot" do
+      expect(piece.is_move_diagonal?(['a', 8])).to eql(3)
     end
 
-    it "returns true if new_position is diagonal backward, left 2 spot" do
-      expect(piece.is_move_diagonal?(['b', 3])).to eql(true)
+    it "returns 2 if new_position is diagonal backward, left 2 spot" do
+      expect(piece.is_move_diagonal?(['b', 3])).to eql(2)
     end
 
-    it "returns true if new_position is diagonal backward, right 4 spot" do
-      expect(piece.is_move_diagonal?(['h', 1])).to eql(true)
+    it "returns 4 if new_position is diagonal backward, right 4 spot" do
+      expect(piece.is_move_diagonal?(['h', 1])).to eql(4)
     end
 
     it "returns false if new_position is straight ahead" do
