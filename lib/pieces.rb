@@ -9,11 +9,11 @@ class GamePiece
     front_back = position[0] <=> new_position[0]
     side = position[1] <=> new_position[1]
     if (front_back == 1 || front_back == -1) && side == 0
-      return true
+      true
     elsif (side == 1 || side == -1) && front_back == 0
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
