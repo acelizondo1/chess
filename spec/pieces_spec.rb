@@ -125,3 +125,49 @@ describe Rook do
     end
   end
 end
+
+describe Pawn do
+  let(:white_pawn) do
+    @white_pawn = Pawn.new("white", ['d', 5])
+  end
+
+  let(:black_pawn) do
+    @black_pawn = Pawn.new("black", ['d', 5])
+  end
+
+  describe "#make_move" do
+    #White piece testing
+    it "returns new pawn positon on forward move of white piece" do
+      expect(white_pawn.make_move(['d', 6])).to eql(['d', 6])
+    end
+
+    it "returns new positon on a diagonal forward move of 1 if on overtake for white piece" do
+      expect(white_pawn.make_move(['c', 6], true)).to eql(['c', 6])
+    end
+
+    it "returns false on backward move of 1 for white piece" do
+      expect(white_pawn.make_move(['d', 4])).to eql(false)
+    end
+
+    it "returns false on diagonal forward move if not on overtake for white piece" do
+      expect(white_pawn.make_move(['e', 6])).to eql(false)
+    end
+
+    #Black piece testing
+    it "returns new pawn positon on forward move of white piece" do
+      expect(black_pawn.make_move(['d', 4])).to eql(['d', 4])
+    end
+
+    it "returns new positon on a diagonal forward move of 1 if on overtake for white piece" do
+      expect(black_pawn.make_move(['c', 4], true)).to eql(['c', 4])
+    end
+
+    it "returns false on backward move of 1 for white piece" do
+      expect(black_pawn.make_move(['d', 6])).to eql(false)
+    end
+
+    it "returns false on diagonal forward move if not on overtake for white piece" do
+      expect(black_pawn.make_move(['e', 4])).to eql(false)
+    end
+  end
+end

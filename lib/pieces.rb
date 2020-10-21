@@ -127,7 +127,37 @@ class Pawn < GamePiece
     super(color, position)
   end
 
-  def make_move(position)
-    reutrn false
+  def make_move(new_position, overtake=false)
+    if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake)
+      if @color == "white"
+        if overtake
+          right = (position[0].ord+1).chr
+          left = (position[0].ord-1).chr
+          if [right, position[1]+1] == new_position || [left, position[1]+1] == new_position
+            @position = new_position
+          else
+            false
+          end
+        else
+          @position[1]+1 == new_position[1] ? @position = new_position : false
+        end 
+      else
+        if overtake
+          right = (position[0].ord+1).chr
+          left = (position[0].ord-1).chr
+          if [right, position[1]-1] == new_position || [left, position[1]-1] == new_position
+            @position = new_position
+          else
+            false
+          end
+        else
+          @position[1]-1 == new_position[1] ? @position = new_position : false
+        end 
+      end
+    else
+      false
+    end
   end
+
+
 end
