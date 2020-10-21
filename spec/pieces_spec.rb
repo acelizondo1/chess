@@ -22,4 +22,26 @@ describe GamePiece do
       expect(piece.is_move_straight?(['c', 4])).to eql(false)
     end
   end
+
+  describe "#is_move_diagonal?" do
+    it "returns true if new_position is diagonal forward 1 spot" do
+      expect(piece.is_move_diagonal?(['e', 6])).to eql(true)
+    end
+
+    it "returns true if new_position is diagonal forward, left 3 spot" do
+      expect(piece.is_move_diagonal?(['a', 8])).to eql(true)
+    end
+
+    it "returns true if new_position is diagonal backward, left 2 spot" do
+      expect(piece.is_move_diagonal?(['b', 3])).to eql(true)
+    end
+
+    it "returns true if new_position is diagonal backward, right 4 spot" do
+      expect(piece.is_move_diagonal?(['h', 1])).to eql(true)
+    end
+
+    it "returns false if new_position is straight ahead" do
+      expect(piece.is_move_diagonal?(['d', 8])).to eql(false)
+    end
+  end
 end
