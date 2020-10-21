@@ -45,3 +45,23 @@ describe GamePiece do
     end
   end
 end
+
+describe King do
+  let!(:king) do
+    @king = King.new("white", ['d', 5])
+  end
+
+  describe "#make_move" do
+    it "returns kings new position on movement of 1 spot forward" do
+      expect(king.make_move(['d', 6])).to eql(['d',6])
+    end
+
+    it "returns kings new position on movement of 1 spot diagonal behind" do
+      expect(king.make_move(['c', 4])).to eql(['c',4])
+    end
+
+    it "returns false on movement of more than 1 spot to the side" do
+      expect(king.make_move(['g', 5])).to eql(false)
+    end
+  end
+end

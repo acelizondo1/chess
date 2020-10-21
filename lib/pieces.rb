@@ -61,8 +61,12 @@ class King < GamePiece
     super(color, position)
   end
 
-  def make_move(position)
-    
+  def make_move(new_position)
+    if is_move_straight?(new_position) == 1 || is_move_diagonal?(new_position) == 1 
+      @position = new_position
+    else
+      false
+    end
   end
 end
 
