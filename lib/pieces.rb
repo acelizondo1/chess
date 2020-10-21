@@ -6,8 +6,8 @@ class GamePiece
   end
 
   def is_move_straight?(new_position)
-    front_back = position[0] <=> new_position[0]
-    side = position[1] <=> new_position[1]
+    side = position[0] <=> new_position[0]
+    front_back = position[1] <=> new_position[1]
     if (front_back == 1 || front_back == -1) && side == 0
       true
     elsif (side == 1 || side == -1) && front_back == 0
