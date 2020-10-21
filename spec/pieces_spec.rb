@@ -106,6 +106,26 @@ describe Bishop do
   end
 end
 
+describe Knight do
+  let(:knight) do
+    @knight = Knight.new("white", ['d', 5])
+  end
+
+  describe "#make_move" do
+    it "returns the new knight positon on forward knight move" do
+      expect(knight.make_move(['c', 3])).to eql(['c', 3])
+    end
+
+    it "returns the new knight position on side knight move" do
+      expect(knight.make_move(['f',4])).to eql(['f',4])
+    end
+
+    it "returns false on invalid move" do
+      expect(knight.make_move(['e',5])).to eql(false)
+    end
+  end
+end
+
 describe Rook do 
   let(:rook) do 
     @rook = Rook.new("white", ['d', 5])

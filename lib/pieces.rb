@@ -101,10 +101,19 @@ end
 class Knight < GamePiece
   def initialize(color,position)
     super(color, position)
+    @moves = [[2,1],[2,-1],[1,2],[-1,2],[1,-2],[-1,-2],[-2,1],[-2,-1]]
   end
 
-  def make_move(position)
-    reutrn false
+  def make_move(new_position)
+    for move in @moves
+      row = @position[1] + move[0]
+      column = (position[0].ord+move[1]).chr
+      if [column,row] == new_position
+        @position = new_position
+        return @position
+      end
+    end
+    false
   end
 end
 
