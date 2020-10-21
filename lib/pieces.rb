@@ -59,6 +59,7 @@ end
 class King < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2654" : "\u265A"
   end
 
   def make_move(new_position)
@@ -73,6 +74,7 @@ end
 class Queen < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2655" : "\u265B"
   end
 
   def make_move(new_position)
@@ -87,6 +89,7 @@ end
 class Bishop < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2657" : "\u265D"
   end
 
   def make_move(new_position)
@@ -101,6 +104,7 @@ end
 class Knight < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2658" : "\u265E"
     @moves = [[2,1],[2,-1],[1,2],[-1,2],[1,-2],[-1,-2],[-2,1],[-2,-1]]
   end
 
@@ -120,6 +124,7 @@ end
 class Rook < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2656" : "\u265C"
   end
 
   def make_move(new_position)
@@ -134,6 +139,7 @@ end
 class Pawn < GamePiece
   def initialize(color,position)
     super(color, position)
+    @display_code = @color == "white" ? "\u2659" : "\u265E"
   end
 
   def make_move(new_position, overtake=false)
