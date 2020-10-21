@@ -65,3 +65,23 @@ describe King do
     end
   end
 end
+
+describe Queen do
+  let(:queen) do
+    @queen = Queen.new("white", ['d', 5])
+  end
+
+  describe "#make_move" do
+    it "returns new queen position on side movement of 4" do
+      expect(queen.make_move(['h', 5])).to eql(['h', 5])
+    end
+
+    it "returns new queen position on diagonal movement of 2" do
+      expect(queen.make_move(['f', 3])).to eql(['f',3])
+    end
+
+    it "returns false if new_position is not in a diagonal or straight line of queen" do
+      expect(queen.make_move(['f', 1])).to eql(false)
+    end
+  end
+end
