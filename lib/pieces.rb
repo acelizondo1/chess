@@ -65,6 +65,8 @@ class GamePiece
 end
 
 class King < GamePiece
+  attr_reader :display_code
+
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2654" : "\u265A"
@@ -80,6 +82,8 @@ class King < GamePiece
 end
 
 class Queen < GamePiece
+  attr_reader :display_code
+
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2655" : "\u265B"
@@ -95,6 +99,8 @@ class Queen < GamePiece
 end
 
 class Bishop < GamePiece
+  attr_reader :display_code
+
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2657" : "\u265D"
@@ -129,6 +135,8 @@ class Knight < GamePiece
 end
 
 class Rook < GamePiece
+  attr_reader :display_code
+
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2656" : "\u265C"
@@ -144,6 +152,8 @@ class Rook < GamePiece
 end
 
 class Pawn < GamePiece
+  attr_reader :display_code
+  
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2659" : "\u265E"
