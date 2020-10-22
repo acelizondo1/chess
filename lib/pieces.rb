@@ -54,6 +54,14 @@ class GamePiece
   def make_move(position)
     return false
   end
+
+  def make_move(new_position)
+    if is_valid_move?(new_position)
+      @position = new_position
+    else
+      false
+    end
+  end
 end
 
 class King < GamePiece
@@ -62,9 +70,9 @@ class King < GamePiece
     @display_code = @color == "white" ? "\u2654" : "\u265A"
   end
 
-  def make_move(new_position)
+  def is_valid_move?(new_position)
     if is_move_straight?(new_position) == 1 || is_move_diagonal?(new_position) == 1 
-      @position = new_position
+      true
     else
       false
     end
@@ -77,9 +85,9 @@ class Queen < GamePiece
     @display_code = @color == "white" ? "\u2655" : "\u265B"
   end
 
-  def make_move(new_position)
+  def is_valid_move?(new_position)
     if is_move_diagonal?(new_position) || is_move_straight?(new_position)
-      @position = new_position
+      true
     else
       false
     end
@@ -92,9 +100,9 @@ class Bishop < GamePiece
     @display_code = @color == "white" ? "\u2657" : "\u265D"
   end
 
-  def make_move(new_position)
+  def is_valid_move?(new_position)
     if is_move_diagonal?(new_position)
-      @position = new_position
+      true
     else
       false
     end
@@ -108,13 +116,12 @@ class Knight < GamePiece
     @moves = [[2,1],[2,-1],[1,2],[-1,2],[1,-2],[-1,-2],[-2,1],[-2,-1]]
   end
 
-  def make_move(new_position)
+  def is_valid_move?(new_position)
     for move in @moves
       row = @position[1] + move[0]
       column = (position[0].ord+move[1]).chr
       if [column,row] == new_position
-        @position = new_position
-        return @position
+        return true
       end
     end
     false
@@ -127,9 +134,9 @@ class Rook < GamePiece
     @display_code = @color == "white" ? "\u2656" : "\u265C"
   end
 
-  def make_move(new_position)
+  def is_valid_move?(new_position)
     if is_move_straight?(new_position)
-      @position = new_position
+      true
     else
       false
     end
@@ -143,36 +150,42 @@ class Pawn < GamePiece
   end
 
   def make_move(new_position, overtake=false)
+    if is_valid_move?(new_position, overtake)
+      @position = new_position
+    else
+      false
+    end
+  end
+
+  def is_valid_move?(new_position, overtake=false)
     if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake)
       if @color == "white"
         if overtake
           right = (position[0].ord+1).chr
           left = (position[0].ord-1).chr
           if [right, position[1]+1] == new_position || [left, position[1]+1] == new_position
-            @position = new_position
+            true
           else
             false
           end
         else
-          @position[1]+1 == new_position[1] ? @position = new_position : false
+          @position[1]+1 == new_position[1] ? true : false
         end 
       else
         if overtake
           right = (position[0].ord+1).chr
           left = (position[0].ord-1).chr
           if [right, position[1]-1] == new_position || [left, position[1]-1] == new_position
-            @position = new_position
+            true
           else
             false
           end
         else
-          @position[1]-1 == new_position[1] ? @position = new_position : false
+          @position[1]-1 == new_position[1] ? true : false
         end 
       end
     else
       false
     end
   end
-
-
 end
