@@ -20,7 +20,18 @@ attr_reader :board
       puts "  --------------------------------"
     end
   end
-end
 
-board = Board.new
-board.display_board
+  def update_board(white_pieces, black_pieces)
+    for white_piece in white_pieces
+      column = white_piece.positon[0]
+      row = white_piece[1]
+      @board[column][row] = white_piece
+    end
+
+    for black_piece in black_pieces
+      column = black_piece.positon[0]
+      row = black_piece[1]
+      @board[column][row] = black_piece
+    end
+  end
+end
