@@ -116,6 +116,8 @@ class Bishop < GamePiece
 end
 
 class Knight < GamePiece
+  attr_reader :display_code
+  
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2658" : "\u265E"
