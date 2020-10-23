@@ -1,4 +1,4 @@
-require './pieces.rb'
+require './lib/pieces.rb'
 
 describe GamePiece do 
   let!(:piece) do
