@@ -17,7 +17,9 @@ attr_reader :color, :active_pieces, :eliminated_pieces
   end
 
   def eliminate_piece(piece_object)
-
+    type = piece_object.class.to_s.downcase
+    @active_pieces[type].delete(piece_object)
+    @eliminated_pieces.push(piece_object)
   end
 
   private

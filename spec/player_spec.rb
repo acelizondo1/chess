@@ -29,6 +29,22 @@ describe Player do
   end
 
   describe "#eliminate_piece" do
-    
+    it "removes object from active_pieces" do
+      pawn_to_eliminate = white_player.active_pieces["pawn"][3]
+      white_player.eliminate_piece(pawn_to_eliminate)
+      expect(white_player.active_pieces.include?(pawn_to_eliminate)).to eql(false)
+    end
+
+    it "adds object to eliminated_pieces" do
+      pawn_to_eliminate = white_player.active_pieces["pawn"][3]
+      white_player.eliminate_piece(pawn_to_eliminate)
+      expect(white_player.eliminated_pieces.include?(pawn_to_eliminate)).to eql(true)
+    end
+
+    it "does nothing if the object is not an active piece" do
+      pawn_to_eliminate = white_player.active_pieces["pawn"][3]
+      white_player.eliminate_piece(pawn_to_eliminate)
+      expect{white_player.eliminate_piece(pawn_to_eliminate)}.to_not change{white_player.active_pieces}
+    end
   end
 end
