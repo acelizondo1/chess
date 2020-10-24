@@ -51,10 +51,6 @@ class GamePiece
       false
   end
 
-  def make_move(position)
-    return false
-  end
-
   def make_move(new_position)
     @position = new_position
   end
