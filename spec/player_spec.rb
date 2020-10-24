@@ -12,4 +12,23 @@ describe Player do
       expect(white_player.active_pieces["queen"][0]).to be_kind_of(Queen)
     end
   end
+
+  describe "#make_move" do
+    it "returns the destination of the moved piece if valid move" do
+      expect(white_player.make_move("rook", ['h', 1], ['h', 5])).to eql(['h',5])
+    end
+
+    it "returns false if invalid move is requested" do
+      expect(white_player.make_move("pawn", ['b',2], ['b', 5])).to eql(false)
+    end
+
+    it "returns false if destination contains another white_player piece" do
+      white_player.make_move("pawn", ['a',2], ['a',3])
+      expect(white_player.make_move("rook", ['a',1], ['a',3])).to eql(false)
+    end
+  end
+
+  describe "#eliminate_piece" do
+    
+  end
 end

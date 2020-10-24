@@ -6,6 +6,20 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     @eliminated_pieces = []
   end
 
+  def make_move(piece, position, destination)
+    for target_piece in @active_pieces[piece]
+      unless space_occupied?(destination)
+        return target_piece.make_move(destination) if target_piece.position == position
+      else 
+        return false
+      end
+    end
+  end
+
+  def eliminate_piece(piece_object)
+
+  end
+
   private
   def load_start_pieces
     pieces = {}
@@ -27,5 +41,14 @@ attr_reader :color, :active_pieces, :eliminated_pieces
       pieces["pawn"].push(Pawn.new(color, positions[i]))
     end
     pieces
+  end
+
+  def space_occupied?(position) 
+    @active_pieces.each do |key, pieces|
+      pieces.each do |piece|
+        return true if piece.position == position
+      end
+    end
+    false
   end
 end
