@@ -2,7 +2,7 @@ class Board
 attr_reader :board
   def initialize
     @board = {}
-    for column in "a".."h"
+    ("a".."h").each do |column|
       @board[column] = Array.new(8)
     end
   end
@@ -10,9 +10,9 @@ attr_reader :board
   def display_board
     puts "  a   b   c   d   e   f   g   h  "
     puts "  --------------------------------"
-    for row in (0..7).reverse_each
+    (0..7).reverse_each.each do |row|
       board_row = "#{row+1}|"
-      for column in "a".."h"
+      ("a".."h").each do |column|
         space = @board[column][row] ? @board[column][row].display_code: " "
         board_row += " #{space} |"
       end
@@ -22,13 +22,13 @@ attr_reader :board
   end
 
   def update_board(white_pieces, black_pieces)
-    for white_piece in white_pieces
+    white_pieces.each do |white_piece|
       column = white_piece.position[0]
       row = white_piece.position[1]
       @board[column][row-1] = white_piece
     end
 
-    for black_piece in black_pieces
+    black_pieces.each do |black_piece|
       column = black_piece.position[0]
       row = black_piece.position[1]
       @board[column][row-1] = black_piece

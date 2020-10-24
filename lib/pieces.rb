@@ -125,7 +125,7 @@ class Knight < GamePiece
   end
 
   def is_valid_move?(new_position)
-    for move in @moves
+    @moves.each do |move|
       row = @position[1] + move[0]
       column = (position[0].ord+move[1]).chr
       if [column,row] == new_position
@@ -155,7 +155,7 @@ end
 
 class Pawn < GamePiece
   attr_reader :display_code
-  
+
   def initialize(color,position)
     super(color, position)
     @display_code = @color == "white" ? "\u2659" : "\u265E"
