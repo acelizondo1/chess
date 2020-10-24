@@ -1,5 +1,6 @@
 require './lib/board.rb'
 require './lib/pieces.rb'
+require './lib/player.rb'
 
 describe Board do
   let!(:board) do
@@ -7,27 +8,31 @@ describe Board do
   end
 
   let!(:white_pieces) do
-      @white_pieces = []
-      @white_pieces.push(Rook.new("white", ['a',1]))
-      @white_pieces.push(Knight.new("white", ['b',1]))
-      @white_pieces.push(Bishop.new("white", ['c',1]))
-      @white_pieces.push(King.new("white", ['d',1]))
-      @white_pieces.push(Queen.new("white", ['e',1]))
-      @white_pieces.push(Bishop.new("white", ['f',1]))
-      @white_pieces.push(Knight.new("white", ['g',1]))
-      @white_pieces.push(Rook.new("white", ['h',1]))
+      # @white_pieces = []
+      # @white_pieces.push(Rook.new("white", ['a',1]))
+      # @white_pieces.push(Knight.new("white", ['b',1]))
+      # @white_pieces.push(Bishop.new("white", ['c',1]))
+      # @white_pieces.push(King.new("white", ['d',1]))
+      # @white_pieces.push(Queen.new("white", ['e',1]))
+      # @white_pieces.push(Bishop.new("white", ['f',1]))
+      # @white_pieces.push(Knight.new("white", ['g',1]))
+      # @white_pieces.push(Rook.new("white", ['h',1]))
+      white_player = Player.new("white")
+      @white_pieces = white_player.active_pieces
   end
 
   let!(:black_pieces) do
-      @black_pieces = []
-      @black_pieces.push(Rook.new("black", ['a',8]))
-      @black_pieces.push(Knight.new("black", ['b',8]))
-      @black_pieces.push(Bishop.new("black", ['c',8]))
-      @black_pieces.push(Queen.new("black", ['d',8]))
-      @black_pieces.push(King.new("black", ['e',8]))
-      @black_pieces.push(Bishop.new("black", ['f',8]))
-      @black_pieces.push(Knight.new("black", ['g',8]))
-      @black_pieces.push(Rook.new("black", ['h',8]))
+      # @black_pieces = []
+      # @black_pieces.push(Rook.new("black", ['a',8]))
+      # @black_pieces.push(Knight.new("black", ['b',8]))
+      # @black_pieces.push(Bishop.new("black", ['c',8]))
+      # @black_pieces.push(Queen.new("black", ['d',8]))
+      # @black_pieces.push(King.new("black", ['e',8]))
+      # @black_pieces.push(Bishop.new("black", ['f',8]))
+      # @black_pieces.push(Knight.new("black", ['g',8]))
+      # @black_pieces.push(Rook.new("black", ['h',8]))
+      black_player = Player.new("black")
+      @black_pieces = black_player.active_pieces
   end
 
   describe "#initialize" do
@@ -40,17 +45,17 @@ describe Board do
     it "loads one side of of the board" do
       board.update_board(white_pieces, [])
       expect(board.board['a'][0]).to be_kind_of(Rook)
-      expect(board.board['d'][0]).to be_kind_of(King)
+      expect(board.board['e'][0]).to be_kind_of(King)
       expect(board.board['g'][0]).to be_kind_of(Knight)
     end
 
     it "loads both sides of the board" do
       board.update_board(white_pieces, black_pieces)
       expect(board.board['a'][0]).to be_kind_of(Rook)
-      expect(board.board['d'][0]).to be_kind_of(King)
+      expect(board.board['e'][0]).to be_kind_of(King)
       expect(board.board['g'][0]).to be_kind_of(Knight)
       expect(board.board['c'][7]).to be_kind_of(Bishop)
-      expect(board.board['d'][7]).to be_kind_of(Queen)
+      expect(board.board['e'][7]).to be_kind_of(Queen)
       expect(board.board['h'][7]).to be_kind_of(Rook)
     end
 
@@ -66,7 +71,7 @@ describe Board do
   describe "#clear_path?" do
     it "returns true if no pieces in path array" do
       board.update_board(white_pieces, black_pieces)
-      array = [['c',4], ['b',3], ['d',2]]
+      array = [['b',5],['c',4], ['b',3]]
       expect(board.clear_path?(array)).to eql(true)
     end
 
@@ -76,6 +81,28 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       array = [['a',3], ['b',3], ['c',3]]
       expect(board.clear_path?(array)).to eql(false)
+    end
+  end
+
+  describe "#is_check?" do
+    it "returns true if 1 white piece is placing king in check" do
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["king"][0].make_move(['d',5])
+      white_pieces["rook"][0].make_move(['a',5])
+      expect(board.is_check?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+    end
+
+    it "returns true if multiple pieces have the king in check" do
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["king"][0].make_move(['d',5])
+      white_pieces["rook"][0].make_move(['a',5])
+      white_pieces["knight"][0].make_move(['f',4])
+      expect(board.is_check?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+    end
+
+    it "returns false if the king is not in check" do
+      board.update_board(white_pieces, black_pieces)
+      expect(board.is_check?(black_pieces, white_pieces["king"][0].position)).to eql(false)
     end
   end
 end

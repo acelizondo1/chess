@@ -22,16 +22,20 @@ attr_reader :board
   end
 
   def update_board(white_pieces, black_pieces)
-    white_pieces.each do |white_piece|
-      column = white_piece.position[0]
-      row = white_piece.position[1]
-      @board[column][row-1] = white_piece
+    white_pieces.each do |key, type|
+      type.each do |white_piece|
+        column = white_piece.position[0]
+        row = white_piece.position[1]
+        @board[column][row-1] = white_piece
+      end
     end
 
-    black_pieces.each do |black_piece|
-      column = black_piece.position[0]
-      row = black_piece.position[1]
-      @board[column][row-1] = black_piece
+    black_pieces.each do |key, type|
+      type.each do |black_piece|
+        column = black_piece.position[0]
+        row = black_piece.position[1]
+        @board[column][row-1] = black_piece
+      end
     end
 
     for column in "a".."h"
@@ -48,5 +52,16 @@ attr_reader :board
       return false unless @board[spot[0]][spot[1]-1] == nil
     end
     true
+  end
+
+  def is_check?(player_pieces, king_position)
+    player_pieces.each do |key, piece_types|
+      piece_types.each do |player_piece|
+        if player_piece.is_valid_move?(king_position)
+          return true if clear_path?(player_piece.map_path(king_position))
+        end
+      end
+    end
+    false
   end
 end
