@@ -14,17 +14,33 @@ describe Player do
   end
 
   describe "#make_move" do
+    it "updates positon for piece" do
+      expect(white_player.make_move("knight", ['b',1], ['c',3])).to eql(['c',3])
+    end
+
+    it "returns false if piece cannot be found" do
+      expect(white_player.make_move("pawn", ['d',5], ['d',6])).to eql(false)
+    end
+  end
+
+  describe "#is_valid_move?" do
     it "returns the destination of the moved piece if valid move" do
-      expect(white_player.make_move("rook", ['h', 1], ['h', 5])).to eql(['h',5])
+      expect(white_player.is_valid_move?("rook", ['h', 1], ['h', 5])).to eql(true)
     end
 
     it "returns false if invalid move is requested" do
-      expect(white_player.make_move("pawn", ['b',2], ['b', 5])).to eql(false)
+      expect(white_player.is_valid_move?("pawn", ['b',2], ['b', 5])).to eql(false)
     end
 
     it "returns false if destination contains another white_player piece" do
       white_player.make_move("pawn", ['a',2], ['a',3])
-      expect(white_player.make_move("rook", ['a',1], ['a',3])).to eql(false)
+      expect(white_player.is_valid_move?("rook", ['a',1], ['a',3])).to eql(false)
+    end
+
+    it "returns false if piece is not active" do
+      piece = white_player.active_pieces['pawn'][0]
+      white_player.eliminate_piece(piece)
+      expect(white_player.is_valid_move?("pawn", ['a',2], ['a',3])).to eql(false)
     end
   end
 

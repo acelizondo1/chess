@@ -7,13 +7,21 @@ attr_reader :color, :active_pieces, :eliminated_pieces
   end
 
   def make_move(piece, position, destination)
-    for target_piece in @active_pieces[piece]
+    @active_pieces[piece].each do |target_piece|
+      return target_piece.make_move(destination) if target_piece.position == position
+    end
+    false
+  end
+
+  def is_valid_move?(piece, position, destination)
+    @active_pieces[piece].each do |target_piece|
       unless space_occupied?(destination)
-        return target_piece.make_move(destination) if target_piece.position == position
+        return target_piece.is_valid_move?(destination) if target_piece.position == position
       else 
         return false
       end
     end
+    false
   end
 
   def eliminate_piece(piece_object)
