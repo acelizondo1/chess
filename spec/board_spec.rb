@@ -58,9 +58,24 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       board.board['a'][0].make_move(['a',4])
       board.update_board(white_pieces, black_pieces)
-      board.display_board
       expect(board.board['a'][3]).to be_kind_of(Rook)
       expect(board.board['a'][0]).to eql(nil)
+    end
+  end
+
+  describe "#clear_path?" do
+    it "returns true if no pieces in path array" do
+      board.update_board(white_pieces, black_pieces)
+      array = [['c',4], ['b',3], ['d',2]]
+      expect(board.clear_path?(array)).to eql(true)
+    end
+
+    it "returns false if a piece is in the path array" do
+      board.update_board(white_pieces, black_pieces)
+      board.board['a'][0].make_move(['a',3])
+      board.update_board(white_pieces, black_pieces)
+      array = [['a',3], ['b',3], ['c',3]]
+      expect(board.clear_path?(array)).to eql(false)
     end
   end
 end

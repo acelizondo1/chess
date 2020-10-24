@@ -42,4 +42,11 @@ attr_reader :board
       end
     end
   end
+
+  def clear_path?(path_array)
+    path_array.each do |spot|
+      return false unless @board[spot[0]][spot[1]-1] == nil
+    end
+    true
+  end
 end
