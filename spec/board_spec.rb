@@ -105,4 +105,13 @@ describe Board do
       expect(board.is_check?(black_pieces, white_pieces["king"][0].position)).to eql(false)
     end
   end
+
+  describe "#is_checkmate?" do
+    it "returns true if king cannot move out of check" do
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["rook"][0].make_move(['d',6])
+      black_pieces["pawn"][3].make_move(['d',5])
+      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+    end
+  end
 end

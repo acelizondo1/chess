@@ -64,4 +64,16 @@ attr_reader :board
     end
     false
   end
+
+  def is_checkmate?(player_pieces, king_position)
+    rows = 1..8
+    columns = "a".."h"
+    potential_king_moves = [[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1]]
+    potential_king_moves.each do |move|
+      row = king_position[1] + move[1]
+      column = (king_position[0].ord+move[0]).chr
+      return false if (is_check?(player_pieces, [column, row]) && columns.include?(column) && rows.include?(row) && board[column][row] == nil)
+    end
+    true
+  end
 end
