@@ -54,6 +54,67 @@ class GamePiece
   def make_move(new_position)
     @position = new_position
   end
+
+  def map_straight_path(new_position)
+    side = position[0] <=> new_position[0]
+    front_back = position[1] <=> new_position[1]
+    direction = [side, front_back]
+    path_array = []
+    case direction
+    when [0,-1]
+      for y in @position[1]..new_position[1]
+        path_array.push([new_position[0],y])
+      end
+    when [-1,0]
+      for x in @position[0]..new_position[0]
+        path_array.push([x,new_position[1]])
+      end
+    when [0,1]
+      for y in (new_position[1]..@position[1]).reverse_each
+        path_array.push([new_position[0],y])
+      end
+    when [1,0]
+      for x in (new_position[0]..@position[0]).reverse_each
+        path_array.push([x, new_position[1]])
+      end
+    else
+      false
+    end
+    path_array
+  end
+
+  def map_diagonal_path(new_position)
+    side = position[0] <=> new_position[0]
+    front_back = position[1] <=> new_position[1]
+    direction = [side, front_back]
+    path_array = []
+    iteration = 0
+    case direction
+    when [1,1]
+      for x in (new_position[0]..@position[0]).reverse_each
+        path_array.push([x,@position[1]-iteration])
+        iteration += 1
+      end
+    when [1,-1]
+      for x in (new_position[0]..@position[0]).reverse_each
+        path_array.push([x,@position[1]+iteration])
+        iteration += 1
+      end
+    when [-1,1]
+      for x in @position[0]..new_position[0]
+        path_array.push([x,@position[1]-iteration])
+        iteration += 1
+      end
+    when [-1,-1]
+      for x in @position[0]..new_position[0]
+        path_array.push([x,@position[1]+iteration])
+        iteration += 1
+      end
+    else
+      false
+    end
+    path_array
+  end
 end
 
 class King < GamePiece
@@ -71,6 +132,10 @@ class King < GamePiece
       false
     end
   end
+
+  def map_path(new_position)
+    is_valid_move?(new_position) ? path_array = [new_position] : false
+  end
 end
 
 class Queen < GamePiece
@@ -84,6 +149,16 @@ class Queen < GamePiece
   def is_valid_move?(new_position)
     if is_move_diagonal?(new_position) || is_move_straight?(new_position)
       new_position
+    else
+      false
+    end
+  end
+
+  def map_path(new_position)
+    if is_move_straight?(new_position) 
+      map_straight_path(new_position)
+    elsif is_move_diagonal?(new_position)
+      map_diagonal_path(new_position)
     else
       false
     end
@@ -104,6 +179,10 @@ class Bishop < GamePiece
     else
       false
     end
+  end
+
+  def map_path(new_position)
+    is_move_diagonal?(new_position) ? map_diagonal_path(new_position) : false
   end
 end
 
@@ -126,6 +205,10 @@ class Knight < GamePiece
     end
     false
   end
+
+  def map_path(new_position)
+    is_valid_move?(new_position) ? [@postion, new_position] : false 
+  end
 end
 
 class Rook < GamePiece
@@ -142,6 +225,10 @@ class Rook < GamePiece
     else
       false
     end
+  end
+
+  def map_path(new_position)
+    is_move_straight?(new_position) ? map_straight_path(new_position) : false
   end
 end
 
@@ -183,5 +270,9 @@ class Pawn < GamePiece
     else
       false
     end
+  end
+
+  def map_path(new_position)
+    is_valid_move?(new_position) ? [@postion, new_position] : false
   end
 end

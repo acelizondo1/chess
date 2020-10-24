@@ -64,6 +64,16 @@ describe King do
       expect(king.is_valid_move?(['g', 5])).to eql(false)
     end
   end
+
+  describe "#map_path" do
+    it "returns an array with one position array insode" do
+      expect(king.map_path(['d',6])).to eql([['d',6]])
+    end
+    
+    it "returns false if invalid move" do
+      expect(king.map_path(['h',8])).to eql(false)
+    end
+  end
 end
 
 describe Queen do
@@ -84,6 +94,16 @@ describe Queen do
       expect(queen.is_valid_move?(['f', 1])).to eql(false)
     end
   end
+
+  describe "#map_path" do
+    it "returns an array with each spot in a straight path" do
+      expect(queen.map_path(['f',5])).to eql([['d',5],['e',5],['f',5]])
+    end
+
+    it "returns an array with each spot traveled in a diagonal path" do
+      expect(queen.map_path(['b',7])).to eql([['d',5],['c',6],['b',7]])
+    end
+  end
 end
 
 describe Bishop do
@@ -102,6 +122,12 @@ describe Bishop do
 
     it "returns false if move is not a diagonal of current positon" do
       expect(bishop.is_valid_move?(['a', 5])).to eql(false)
+    end
+  end
+
+  describe "#map_path" do
+    it "returns an array with each spot traveled in a diagonal path" do
+      expect(bishop.map_path(['b',7])).to eql([['d',5],['c',6],['b',7]])
     end
   end
 end
@@ -142,6 +168,12 @@ describe Rook do
 
     it "returns false if new_positon not a straight line of current position" do
       expect(rook.is_valid_move?(['g', 3])).to eql(false)
+    end
+  end
+
+  describe "#map_path" do
+    it "returns an array of the spots traveled to new position" do
+      expect(rook.map_path(['d',3])).to eql([['d',5],['d',4],['d',3]])
     end
   end
 end
