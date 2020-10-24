@@ -25,7 +25,7 @@ describe Player do
 
   describe "#is_valid_move?" do
     it "returns the destination of the moved piece if valid move" do
-      expect(white_player.is_valid_move?("rook", ['h', 1], ['h', 5])).to eql(true)
+      expect(white_player.is_valid_move?("rook", ['h', 1], ['h', 5])).to eql(['h',5])
     end
 
     it "returns false if invalid move is requested" do

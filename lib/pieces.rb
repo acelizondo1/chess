@@ -56,11 +56,7 @@ class GamePiece
   end
 
   def make_move(new_position)
-    if is_valid_move?(new_position)
-      @position = new_position
-    else
-      false
-    end
+    @position = new_position
   end
 end
 
@@ -74,7 +70,7 @@ class King < GamePiece
 
   def is_valid_move?(new_position)
     if is_move_straight?(new_position) == 1 || is_move_diagonal?(new_position) == 1 
-      true
+      new_position
     else
       false
     end
@@ -91,7 +87,7 @@ class Queen < GamePiece
 
   def is_valid_move?(new_position)
     if is_move_diagonal?(new_position) || is_move_straight?(new_position)
-      true
+      new_position
     else
       false
     end
@@ -108,7 +104,7 @@ class Bishop < GamePiece
 
   def is_valid_move?(new_position)
     if is_move_diagonal?(new_position)
-      true
+      new_position
     else
       false
     end
@@ -129,7 +125,7 @@ class Knight < GamePiece
       row = @position[1] + move[0]
       column = (position[0].ord+move[1]).chr
       if [column,row] == new_position
-        return true
+        return new_position
       end
     end
     false
@@ -146,7 +142,7 @@ class Rook < GamePiece
 
   def is_valid_move?(new_position)
     if is_move_straight?(new_position)
-      true
+      new_position
     else
       false
     end
@@ -161,14 +157,6 @@ class Pawn < GamePiece
     @display_code = @color == "white" ? "\u2659" : "\u265E"
   end
 
-  def make_move(new_position, overtake=false)
-    if is_valid_move?(new_position, overtake)
-      @position = new_position
-    else
-      false
-    end
-  end
-
   def is_valid_move?(new_position, overtake=false)
     if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake)
       if @color == "white"
@@ -176,24 +164,24 @@ class Pawn < GamePiece
           right = (position[0].ord+1).chr
           left = (position[0].ord-1).chr
           if [right, position[1]+1] == new_position || [left, position[1]+1] == new_position
-            true
+            new_position
           else
             false
           end
         else
-          @position[1]+1 == new_position[1] ? true : false
+          @position[1]+1 == new_position[1] ? new_position : false
         end 
       else
         if overtake
           right = (position[0].ord+1).chr
           left = (position[0].ord-1).chr
           if [right, position[1]-1] == new_position || [left, position[1]-1] == new_position
-            true
+            new_position
           else
             false
           end
         else
-          @position[1]-1 == new_position[1] ? true : false
+          @position[1]-1 == new_position[1] ? new_position : false
         end 
       end
     else

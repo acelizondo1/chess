@@ -51,17 +51,17 @@ describe King do
     @king = King.new("white", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     it "returns kings new position on movement of 1 spot forward" do
-      expect(king.make_move(['d', 6])).to eql(['d',6])
+      expect(king.is_valid_move?(['d', 6])).to eql(['d',6])
     end
 
     it "returns kings new position on movement of 1 spot diagonal behind" do
-      expect(king.make_move(['c', 4])).to eql(['c',4])
+      expect(king.is_valid_move?(['c', 4])).to eql(['c',4])
     end
 
     it "returns false on movement of more than 1 spot to the side" do
-      expect(king.make_move(['g', 5])).to eql(false)
+      expect(king.is_valid_move?(['g', 5])).to eql(false)
     end
   end
 end
@@ -71,17 +71,17 @@ describe Queen do
     @queen = Queen.new("white", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     it "returns new queen position on side movement of 4" do
-      expect(queen.make_move(['h', 5])).to eql(['h', 5])
+      expect(queen.is_valid_move?(['h', 5])).to eql(['h', 5])
     end
 
     it "returns new queen position on diagonal movement of 2" do
-      expect(queen.make_move(['f', 3])).to eql(['f',3])
+      expect(queen.is_valid_move?(['f', 3])).to eql(['f',3])
     end
 
     it "returns false if new_position is not in a diagonal or straight line of queen" do
-      expect(queen.make_move(['f', 1])).to eql(false)
+      expect(queen.is_valid_move?(['f', 1])).to eql(false)
     end
   end
 end
@@ -91,17 +91,17 @@ describe Bishop do
     @bishop = Bishop.new("white", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     it "returns new bishop position on diagonal forward, left move of 3" do
-      expect(bishop.make_move(['a', 8])).to eql(['a', 8])
+      expect(bishop.is_valid_move?(['a', 8])).to eql(['a', 8])
     end
 
     it "returns new bishop position on diagonal behind left move" do
-      expect(bishop.make_move(['a', 2])).to eql(['a', 2])
+      expect(bishop.is_valid_move?(['a', 2])).to eql(['a', 2])
     end
 
     it "returns false if move is not a diagonal of current positon" do
-      expect(bishop.make_move(['a', 5])).to eql(false)
+      expect(bishop.is_valid_move?(['a', 5])).to eql(false)
     end
   end
 end
@@ -111,17 +111,17 @@ describe Knight do
     @knight = Knight.new("white", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     it "returns the new knight positon on forward knight move" do
-      expect(knight.make_move(['c', 3])).to eql(['c', 3])
+      expect(knight.is_valid_move?(['c', 3])).to eql(['c', 3])
     end
 
     it "returns the new knight position on side knight move" do
-      expect(knight.make_move(['f',4])).to eql(['f',4])
+      expect(knight.is_valid_move?(['f',4])).to eql(['f',4])
     end
 
     it "returns false on invalid move" do
-      expect(knight.make_move(['e',5])).to eql(false)
+      expect(knight.is_valid_move?(['e',5])).to eql(false)
     end
   end
 end
@@ -131,17 +131,17 @@ describe Rook do
     @rook = Rook.new("white", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     it "returns new rook positon on backward move" do
-      expect(rook.make_move(['d', 2])).to eql(['d', 2])
+      expect(rook.is_valid_move?(['d', 2])).to eql(['d', 2])
     end
 
     it "returns false if new_positon is a diagonal of current positon" do
-      expect(rook.make_move(['e', 4])).to eql(false)
+      expect(rook.is_valid_move?(['e', 4])).to eql(false)
     end
 
     it "returns false if new_positon not a straight line of current position" do
-      expect(rook.make_move(['g', 3])).to eql(false)
+      expect(rook.is_valid_move?(['g', 3])).to eql(false)
     end
   end
 end
@@ -155,39 +155,39 @@ describe Pawn do
     @black_pawn = Pawn.new("black", ['d', 5])
   end
 
-  describe "#make_move" do
+  describe "#is_valid_move?" do
     #White piece testing
     it "returns new pawn positon on forward move of white piece" do
-      expect(white_pawn.make_move(['d', 6])).to eql(['d', 6])
+      expect(white_pawn.is_valid_move?(['d', 6])).to eql(['d', 6])
     end
 
     it "returns new positon on a diagonal forward move of 1 if on overtake for white piece" do
-      expect(white_pawn.make_move(['c', 6], true)).to eql(['c', 6])
+      expect(white_pawn.is_valid_move?(['c', 6], true)).to eql(['c', 6])
     end
 
     it "returns false on backward move of 1 for white piece" do
-      expect(white_pawn.make_move(['d', 4])).to eql(false)
+      expect(white_pawn.is_valid_move?(['d', 4])).to eql(false)
     end
 
     it "returns false on diagonal forward move if not on overtake for white piece" do
-      expect(white_pawn.make_move(['e', 6])).to eql(false)
+      expect(white_pawn.is_valid_move?(['e', 6])).to eql(false)
     end
 
     #Black piece testing
     it "returns new pawn positon on forward move of white piece" do
-      expect(black_pawn.make_move(['d', 4])).to eql(['d', 4])
+      expect(black_pawn.is_valid_move?(['d', 4])).to eql(['d', 4])
     end
 
     it "returns new positon on a diagonal forward move of 1 if on overtake for white piece" do
-      expect(black_pawn.make_move(['c', 4], true)).to eql(['c', 4])
+      expect(black_pawn.is_valid_move?(['c', 4], true)).to eql(['c', 4])
     end
 
     it "returns false on backward move of 1 for white piece" do
-      expect(black_pawn.make_move(['d', 6])).to eql(false)
+      expect(black_pawn.is_valid_move?(['d', 6])).to eql(false)
     end
 
     it "returns false on diagonal forward move if not on overtake for white piece" do
-      expect(black_pawn.make_move(['e', 4])).to eql(false)
+      expect(black_pawn.is_valid_move?(['e', 4])).to eql(false)
     end
   end
 end
