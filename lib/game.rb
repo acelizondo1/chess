@@ -44,4 +44,21 @@ class Game
       false
     end
   end
+
+  def clean_input(user_input) 
+    begin
+      user_input = user_input.split(" ")
+      piece = user_input[0].downcase
+      position = user_input[1].split("")
+      position[0] = position[0].downcase
+      position[1] = position[1].to_i
+      destination = user_input[2].split("")
+      destination[0] = destination[0].downcase
+      destination[1] = destination[1].to_i
+      raise ArgumentError.new("Invalid coordinates") if destination[1] == 0 || position[1] == 0 || destination[0].count("a-zA-Z") == 0 || position[0].count("a-zA-Z") == 0
+      clean_inputs = [piece, position, destination]
+    rescue 
+      false
+    end
+  end
 end
