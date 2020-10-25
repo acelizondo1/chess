@@ -5,6 +5,18 @@ describe Game do
     @game = Game.new
   end
 
+  describe "#get_input" do
+    it "returns array of move inputs if user input is valid" do
+      allow(game).to receive(:gets).and_return("Queen a3 c5")
+      expect(game.get_input).to eql(['queen',['a',3],['c',5]])
+    end
+
+    it "prompts user to enter move again if invalid input" do 
+      allow(game).to receive(:gets).and_return("wrong input", "Closer format input", "EvenCloser bb a5", "a6 b5", "KiNg D5 c6")
+      expect{game.get_input}.to output("White player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\n").to_stdout
+    end
+  end
+
   describe "#input_in_range?" do
     it "should return true if all inputs are in board range" do
       expect(game.send(:input_in_range?, "pawn", ['a', 2], ['a', 3])).to eql(true)

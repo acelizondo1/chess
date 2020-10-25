@@ -7,7 +7,7 @@ class Game
     @white_player = Player.new("white")
     @black_player = Player.new("black")
     @board = Board.new
-    @current_player_turn = @white_player
+    @current_player = @white_player
     @winner = false
   end
 
@@ -16,20 +16,16 @@ class Game
   end
 
   def get_input
-
     valid_input = false
     until valid_input
-      puts "#{current_player.color} player please enter your move:"
+      puts "#{@current_player.color.capitalize} player please enter your move:"
       user_input = gets.chomp
-      user_input.split(" ")
-      piece = user_input[0].downcase
-      position = user_input[1].split("")
-      destination = user_input[1].split("")
-      if input_in_range?(piece, position, destination)
-
+      user_input = clean_input(user_input)
+      if user_input && input_in_range?(user_input[0], user_input[1], user_input[2])
+        valid_input = true
       end
-
     end
+    user_input
   end
 
   private
