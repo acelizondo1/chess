@@ -30,6 +30,13 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     @eliminated_pieces.push(piece_object)
   end
 
+  def map_path(piece, position, destination)
+    @active_pieces[piece].each do |target_piece|
+      return target_piece.map_path(destination) if target_piece.position == position
+    end
+    false
+  end
+
   private
   def load_start_pieces
     pieces = {}
