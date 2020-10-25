@@ -15,6 +15,18 @@ class Game
 
   end
 
+  def play_game
+    until @winner
+      player_move = get_input
+
+      if player_move.class == Array
+        until @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2]) && board.clear_path(player.map_move(player_move[0],player_move[1],player_move[2]))
+      
+        end
+      end
+    end
+  end
+
   def get_input
     valid_input = false
     until valid_input
