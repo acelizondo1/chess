@@ -6,7 +6,20 @@ describe Game do
   end
 
   describe "#process_move" do
-    it ""
+    it "updates a player position on move to an empty spot" do
+      game.process_move(['pawn',['c',2],['c',3]])
+      expect(game.current_player.active_pieces["pawn"][2].position).to eql(['c',3])
+      expect(game.board.board["c"][2].class).to eql(Pawn)
+    end
+
+    it "updates a piece position on an overtake and eliminates from opponent" do
+      game.process_move(['knight',['b',1],['c',3]])
+      game.process_move(['knight',['c',3],['d',5]])
+      game.process_move(['knight',['d',5],['e',7]])
+      expect(game.current_player.active_pieces['knight'][0].position).to eql(['e',7])
+      expect(game.board.board['e'][6].class).to eql(Knight)
+      expect(game.opponent_player.eliminated_pieces[0].class).to eql(Pawn)
+    end
   end
 
   describe "#get_valid_move" do
