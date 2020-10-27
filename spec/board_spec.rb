@@ -71,7 +71,7 @@ describe Board do
   describe "#clear_path?" do
     it "returns true if no pieces in path array" do
       board.update_board(white_pieces, black_pieces)
-      array = [['b',5],['c',4], ['b',3]]
+      array = [['b',5],['c',4],['b',3]]
       expect(board.clear_path?(array)).to eql(true)
     end
 
@@ -79,7 +79,7 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       board.board['a'][0].make_move(['a',3])
       board.update_board(white_pieces, black_pieces)
-      array = [['a',3], ['b',3], ['c',3]]
+      array = [['a',2],['a',3],['b',3],['c',3],['d',3]]
       expect(board.clear_path?(array)).to eql(false)
     end
   end

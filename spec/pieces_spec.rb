@@ -67,7 +67,7 @@ describe King do
 
   describe "#map_path" do
     it "returns an array with one position array insode" do
-      expect(king.map_path(['d',6])).to eql([['d',6]])
+      expect(king.map_path(['d',6])).to eql([['d',5],['d',6]])
     end
     
     it "returns false if invalid move" do

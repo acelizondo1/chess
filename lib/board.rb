@@ -48,8 +48,11 @@ attr_reader :board
   end
 
   def clear_path?(path_array)
-    path_array.each do |spot|
-      return false unless @board[spot[0]][spot[1]-1] == nil
+    unless path_array.length < 2
+      path_array = path_array[1..path_array.length-2]
+      path_array.each_with_index do |spot, index|
+        return false unless @board[spot[0]][spot[1]-1] == nil
+      end
     end
     true
   end

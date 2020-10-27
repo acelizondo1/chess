@@ -134,7 +134,7 @@ class King < GamePiece
   end
 
   def map_path(new_position)
-    is_valid_move?(new_position) ? path_array = [new_position] : false
+    is_valid_move?(new_position) ? path_array = [@position, new_position] : false
   end
 end
 
