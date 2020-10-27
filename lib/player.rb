@@ -1,9 +1,11 @@
 class Player
+attr_accessor :in_check
 attr_reader :color, :active_pieces, :eliminated_pieces
   def initialize(player_color)
     @color = player_color
     @active_pieces = load_start_pieces
     @eliminated_pieces = []
+    @in_check = false
   end
 
   def make_move(piece, position, destination)
@@ -14,6 +16,7 @@ attr_reader :color, :active_pieces, :eliminated_pieces
   end
 
   def is_valid_move?(piece, position, destination)
+    return false if @in_check && piece != "king"
     @active_pieces[piece].each do |target_piece|
       unless space_occupied?(destination)
         return target_piece.is_valid_move?(destination) if target_piece.position == position

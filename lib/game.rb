@@ -8,7 +8,9 @@ class Game
     @white_player = Player.new("white")
     @black_player = Player.new("black")
     @board = Board.new
+    @board.update_board(@white_player.active_pieces,@black_player.active_pieces)
     @current_player = @white_player
+    @opponent_player = @black_player
     @winner = false
   end
 
@@ -18,19 +20,32 @@ class Game
 
   def play_game
     until @winner
-      valid_move = false
-      clear_path = false
+      player_move = get_valid_move
+      if player_move.class == Array
+        @current_player.make_move(player_move[0],player_move[1],player_move[2])
+        @board.update_board(@white_player, @black_player)
+        # if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
+        #   @opponent_player.in_check = true
+        #   @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
+        # end
+      end
 
-      until valid_move && clear_path
-        player_move = get_input
-        if @SPECIAL_COMMANDS.include?(player_move)
-          
-        elsif player_move.class == Array
-          valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
-          clear_path = @board.clear_path(player.map_move(player_move[0],player_move[1],player_move[2]))
-        end
+    end
+  end
+
+  def get_valid_move 
+    valid_move = false
+    clear_path = false
+    until valid_move && clear_path
+      player_move = get_input
+      if @@SPECIAL_COMMANDS.include?(player_move)
+        break
+      else
+        valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
+        clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
       end
     end
+    player_move
   end
 
   def get_input

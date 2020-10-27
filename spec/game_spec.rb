@@ -5,6 +5,14 @@ describe Game do
     @game = Game.new
   end
 
+  describe "#get_valid_move" do
+    it "doesn't make invalid moves" do
+      allow(game).to receive(:gets).and_return("rook a1 a2", "rook a1 a4", "pawn a2 a3")
+      expect(game.get_valid_move).to eql(['pawn',['a',2],['a',3]])
+    end
+
+  end
+
   describe "#get_input" do
     it "returns array of move inputs if user input is valid" do
       allow(game).to receive(:gets).and_return("Queen a3 c5")
