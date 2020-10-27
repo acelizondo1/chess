@@ -27,10 +27,17 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
-  def eliminate_piece(piece_object)
-    type = piece_object.class.to_s.downcase
-    @active_pieces[type].delete(piece_object)
-    @eliminated_pieces.push(piece_object)
+  def eliminate_piece(position)
+    @active_pieces.each do |key, pieces|
+      pieces.each do |piece|
+        if piece.position == position
+          type = piece.class.to_s.downcase
+          @active_pieces[type].delete(piece)
+          @eliminated_pieces.push(piece)
+        end
+      end
+    end
+    
   end
 
   def map_path(piece, position, destination)

@@ -5,6 +5,10 @@ describe Game do
     @game = Game.new
   end
 
+  describe "#process_move" do
+    it ""
+  end
+
   describe "#get_valid_move" do
     it "doesn't make invalid moves" do
       allow(game).to receive(:gets).and_return("rook a1 a2", "rook a1 a4", "pawn a2 a3")
