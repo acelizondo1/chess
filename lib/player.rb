@@ -40,6 +40,15 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
+  def space_occupied?(position) 
+    @active_pieces.each do |key, pieces|
+      pieces.each do |piece|
+        return true if piece.position == position
+      end
+    end
+    false
+  end
+
   private
   def load_start_pieces
     pieces = {}
@@ -61,14 +70,5 @@ attr_reader :color, :active_pieces, :eliminated_pieces
       pieces["pawn"].push(Pawn.new(color, positions[i]))
     end
     pieces
-  end
-
-  def space_occupied?(position) 
-    @active_pieces.each do |key, pieces|
-      pieces.each do |piece|
-        return true if piece.position == position
-      end
-    end
-    false
   end
 end

@@ -22,15 +22,22 @@ class Game
     until @winner
       player_move = get_valid_move
       if player_move.class == Array
-        @current_player.make_move(player_move[0],player_move[1],player_move[2])
-        @board.update_board(@white_player, @black_player)
-        # if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
-        #   @opponent_player.in_check = true
-        #   @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
-        # end
+        
       end
 
     end
+  end
+
+  def process_move(player_move)
+    if @opponent_player.space_occupied(player_move[2])
+      @opponent_player.eliminate_piece(player_move[2])
+    end
+    @current_player.make_move(player_move[0],player_move[1],player_move[2])
+    @board.update_board(@white_player, @black_player)
+    # if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
+    #   @opponent_player.in_check = true
+    #   @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
+    # end
   end
 
   def get_valid_move 
