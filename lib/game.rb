@@ -2,6 +2,7 @@ require './lib/player.rb'
 require './lib/board.rb'
 
 class Game
+  @@SPECIAL_COMMANDS = ["help", "yield", "save", "yield"]
 
   def initialize
     @white_player = Player.new("white")
@@ -17,11 +18,16 @@ class Game
 
   def play_game
     until @winner
-      player_move = get_input
+      valid_move = false
+      clear_path = false
 
-      if player_move.class == Array
-        until @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2]) && board.clear_path(player.map_move(player_move[0],player_move[1],player_move[2]))
-      
+      until valid_move && clear_path
+        player_move = get_input
+        if @SPECIAL_COMMANDS.include?(player_move)
+          
+        elsif player_move.class == Array
+          valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
+          clear_path = @board.clear_path(player.map_move(player_move[0],player_move[1],player_move[2]))
         end
       end
     end
