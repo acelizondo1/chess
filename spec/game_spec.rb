@@ -36,6 +36,16 @@ describe Game do
       expect(game.get_valid_move).to eql(['pawn',['a',2],['a',3]])
     end
 
+    it "doesn't make a move that doesn't remove player from check" do
+      game.process_move(['pawn',['e',2],['e',3]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['d',7],['d',6]])
+      game.send(:switch_current_player)
+      game.process_move(['bishop',['f',1],['b',5]])
+      game.send(:switch_current_player)
+      allow(game).to receive(:gets).and_return("pawn a7 a6","pawn c7 c6")
+      expect(game.get_valid_move).to eql(['pawn',['c',7],['c',6]])
+    end
   end
 
   describe "#get_input" do

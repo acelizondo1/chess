@@ -52,6 +52,10 @@ class Game
       else
         valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
         clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
+        unless !@current_player.in_check || (@current_player.in_check && remove_check?(player_move))
+          valid_move = false
+          clear_path = false
+        end
       end
     end
     player_move
