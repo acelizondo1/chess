@@ -197,6 +197,10 @@ describe Pawn do
       expect(white_pawn.is_valid_move?(['c', 6], true)).to eql(['c', 6])
     end
 
+    it "returns new position if the move is forward 2 and it's the first move" do
+      expect(white_pawn.is_valid_move?(['d', 7])).to eql(['d',7])
+    end
+
     it "returns false on backward move of 1 for white piece" do
       expect(white_pawn.is_valid_move?(['d', 4])).to eql(false)
     end

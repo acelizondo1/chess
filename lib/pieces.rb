@@ -237,11 +237,12 @@ class Pawn < GamePiece
 
   def initialize(color,position)
     super(color, position)
+    @first_move = true
     @display_code = @color == "white" ? "\u265F" : "\u2659"
   end
 
   def is_valid_move?(new_position, overtake=false)
-    if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake)
+    if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake) || (is_move_straight?(new_position) == 2 && @first_move)
       if @color == "white"
         if overtake
           right = (position[0].ord+1).chr
@@ -251,6 +252,8 @@ class Pawn < GamePiece
           else
             false
           end
+        elsif @first_move && is_move_straight?(new_position) == 2
+          @position[1]+2 == new_position[1] ? new_position : false
         else
           @position[1]+1 == new_position[1] ? new_position : false
         end 
@@ -263,6 +266,8 @@ class Pawn < GamePiece
           else
             false
           end
+        elsif @first_move && is_move_straight?(new_position) == 2
+          @position[1]-2 == new_position[1] ? new_position : false
         else
           @position[1]-1 == new_position[1] ? new_position : false
         end 
@@ -270,6 +275,11 @@ class Pawn < GamePiece
     else
       false
     end
+  end
+
+  def make_move(new_position)
+    super
+    @first_move = false if @first_move
   end
 
   def map_path(new_position)
