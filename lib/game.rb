@@ -2,7 +2,7 @@ require './lib/player.rb'
 require './lib/board.rb'
 
 class Game
-  attr_reader :current_player, :opponent_player, :board, :winner
+  attr_reader :current_player, :opponent_player, :board, :winner, :white_player, :black_player
 
   @@SPECIAL_COMMANDS = ["help", "yield", "save", "yield"]
 
@@ -24,11 +24,13 @@ class Game
     until @winner
       player_move = get_valid_move
       if player_move.class == Array
-        
+        process_move(player_move)
+        switch_current_player
       elsif @@SPECIAL_COMMANDS.include?(player_move)
         run_special_command(player_move)
       end
     end
+    puts "#{@winner.color.capitalize} player has won the game!"
   end
 
   def process_move(player_move)
@@ -140,6 +142,7 @@ class Game
       puts "Enter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game"
     when 'yield'
       @winner = @opponent_player
+      puts "#{@current_player.color.capitalize} player has yielded"
     when 'save'
 
     when 'load'
