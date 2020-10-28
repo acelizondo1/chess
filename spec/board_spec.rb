@@ -55,7 +55,7 @@ describe Board do
       expect(board.board['e'][0]).to be_kind_of(King)
       expect(board.board['g'][0]).to be_kind_of(Knight)
       expect(board.board['c'][7]).to be_kind_of(Bishop)
-      expect(board.board['e'][7]).to be_kind_of(Queen)
+      expect(board.board['d'][7]).to be_kind_of(Queen)
       expect(board.board['h'][7]).to be_kind_of(Rook)
     end
 

@@ -20,6 +20,14 @@ describe Game do
       expect(game.board.board['e'][6].class).to eql(Knight)
       expect(game.opponent_player.eliminated_pieces[0].class).to eql(Pawn)
     end
+
+    it "updates a piece and also checks if move puts king in checkmate" do
+      game.process_move(['knight',['b',1],['c',3]])
+      game.process_move(['knight',['c',3],['d',5]])
+      game.process_move(['knight',['d',5],['f',6]])
+      expect(game.winner.color).to eql("white")
+      expect(game.opponent_player.in_check).to eql(true)
+    end
   end
 
   describe "#get_valid_move" do

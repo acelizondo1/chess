@@ -2,7 +2,7 @@ require './lib/player.rb'
 require './lib/board.rb'
 
 class Game
-  attr_reader :current_player, :opponent_player, :board
+  attr_reader :current_player, :opponent_player, :board, :winner
 
   @@SPECIAL_COMMANDS = ["help", "yield", "save", "yield"]
 
@@ -36,10 +36,10 @@ class Game
     end
     @current_player.make_move(player_move[0],player_move[1],player_move[2])
     @board.update_board(@white_player.active_pieces, @black_player.active_pieces)
-    # if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
-    #   @opponent_player.in_check = true
-    #   @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0])
-    # end
+    if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
+      @opponent_player.in_check = true
+      @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
+    end
   end
 
   def get_valid_move 

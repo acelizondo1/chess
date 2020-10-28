@@ -65,13 +65,8 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     pieces['rook']    = [Rook.new(color, positions[0]), Rook.new(color, positions[7])]
     pieces['knight']  = [Knight.new(color, positions[1]), Knight.new(color, positions[6])]
     pieces["bishop"]  = [Bishop.new(color, positions[2]), Bishop.new(color, positions[5])]
-    if color == "white"
-      pieces["queen"] = [Queen.new(color, positions[3])]
-      pieces["king"]  = [King.new(color, positions[4])]
-    else
-      pieces["queen"] = [Queen.new(color, positions[4])]
-      pieces["king"]  = [King.new(color, positions[3])]
-    end
+    pieces["queen"] = [Queen.new(color, positions[3])]
+    pieces["king"]  = [King.new(color, positions[4])]
     pieces["pawn"] = []
     for i in 8..15
       pieces["pawn"].push(Pawn.new(color, positions[i]))
