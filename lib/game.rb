@@ -64,11 +64,16 @@ class Game
   def get_input
     valid_input = false
     until valid_input
-      puts "#{@current_player.color.capitalize} player please enter your move:"
+      puts "#{@current_player.color.capitalize} player please enter your move(enter 'help' for possible commands):"
       user_input = gets.chomp
-      user_input = clean_input(user_input)
-      if user_input && input_in_range?(user_input[0], user_input[1], user_input[2])
+      if @@SPECIAL_COMMANDS.include?(user_input.downcase)
+        user_input = user_input.downcase
         valid_input = true
+      else
+        user_input = clean_input(user_input)
+        if user_input && input_in_range?(user_input[0], user_input[1], user_input[2])
+          valid_input = true
+        end
       end
     end
     user_input

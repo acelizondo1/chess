@@ -58,6 +58,11 @@ describe Game do
       allow(game).to receive(:gets).and_return("wrong input", "Closer format input", "EvenCloser bb a5", "a6 b5", "KiNg D5 c6")
       expect{game.get_input}.to output("White player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\n").to_stdout
     end
+
+    it "allows an input of a special command" do
+      allow(game).to receive(:gets).and_return("HELP")
+      expect(game.get_input).to eql("help")
+    end
   end
 
   describe "#remove_check?" do 
