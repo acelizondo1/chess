@@ -25,8 +25,9 @@ class Game
       player_move = get_valid_move
       if player_move.class == Array
         
+      elsif @@SPECIAL_COMMANDS.include?(player_move)
+        run_special_command(player_move)
       end
-
     end
   end
 
@@ -130,6 +131,21 @@ class Game
     else
       @current_player = @white_player
       @opponent_player = @black_player
+    end
+  end
+
+  def run_special_command(command)
+    case command
+    when 'help'
+      puts "Enter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game"
+    when 'yield'
+      @winner = @opponent_player
+    when 'save'
+
+    when 'load'
+
+    else
+
     end
   end
 end

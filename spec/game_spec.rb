@@ -5,6 +5,19 @@ describe Game do
     @game = Game.new
   end
 
+  describe "#play_game" do
+    it "changes winner to opponent player when yield command is entered" do
+      allow(game).to receive(:gets).and_return("yield")
+      game.play_game
+      expect(game.winner.color).to eql("black")
+    end
+
+    it "displays the help message when the help command is given" do
+      allow(game).to receive(:gets).and_return("help","yield")
+      expect{game.play_game}.to output("White player please enter your move(enter 'help' for possible commands):\nEnter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game\nWhite player please enter your move(enter 'help' for possible commands):\n").to_stdout
+    end
+  end
+
   describe "#process_move" do
     it "updates a player position on move to an empty spot" do
       game.process_move(['pawn',['c',2],['c',3]])
@@ -46,6 +59,11 @@ describe Game do
       allow(game).to receive(:gets).and_return("pawn a7 a6","pawn c7 c6")
       expect(game.get_valid_move).to eql(['pawn',['c',7],['c',6]])
     end
+
+    it "allows special commands to be entered" do
+      allow(game).to receive(:gets).and_return("YiEld")
+      expect(game.get_valid_move).to eql("yield")
+    end
   end
 
   describe "#get_input" do
@@ -66,7 +84,6 @@ describe Game do
   end
 
   describe "#remove_check?" do 
-
     it "should return true if king moves out of check" do
       game.process_move(['knight',['b',1],['c',3]])
       game.process_move(['knight',['c',3],['d',5]])
