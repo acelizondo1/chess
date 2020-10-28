@@ -70,6 +70,20 @@ class Game
     user_input
   end
 
+  def remove_check?(player_move)
+    board_copy = Marshal.load(Marshal.dump(@board))
+    current_player_copy = Marshal.load(Marshal.dump(@current_player))
+    opponent_player_copy = Marshal.load(Marshal.dump(@opponent_player))
+
+    if opponent_player_copy.space_occupied?(player_move[2])
+      opponent_player_copy.eliminate_piece(player_move[2])
+    end
+    current_player_copy.make_move(player_move[0],player_move[1],player_move[2])
+    board_copy.update_board(current_player_copy.active_pieces, opponent_player_copy.active_pieces)
+
+    board_copy.is_check?(opponent_player_copy.active_pieces,current_player_copy.active_pieces['king'][0].position) ? false : true
+  end
+
   private
   def input_in_range?(piece, position, destination)
     valid_pieces = ['king','queen','bishop','knight','rook','pawn']
@@ -97,6 +111,16 @@ class Game
       clean_inputs = [piece, position, destination]
     rescue 
       false
+    end
+  end
+
+  def switch_current_player
+    if @current_player == @white_player
+      @current_player = @black_player
+      @opponent_player = @white_player
+    else
+      @current_player = @white_player
+      @opponent_player = @black_player
     end
   end
 end

@@ -50,6 +50,55 @@ describe Game do
     end
   end
 
+  describe "#remove_check?" do 
+
+    it "should return true if king moves out of check" do
+      game.process_move(['knight',['b',1],['c',3]])
+      game.process_move(['knight',['c',3],['d',5]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['f',7],['f',6]])
+      game.send(:switch_current_player)
+      game.process_move(['knight',['d',5],['f',6]])
+      game.send(:switch_current_player)
+      expect(game.remove_check?(['king',['e',8],['f',7]])).to eql(true)
+      expect(game.current_player.active_pieces["king"][0].position).to eql(['e',8])
+    end
+
+    it "should return true if checking piece is overtaken" do
+      game.process_move(['knight',['b',1],['c',3]])
+      game.process_move(['knight',['c',3],['d',5]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['f',7],['f',6]])
+      game.send(:switch_current_player)
+      game.process_move(['knight',['d',5],['f',6]])
+      game.send(:switch_current_player)
+      expect(game.remove_check?(['pawn',['e',7],['f',6]])).to eql(true)
+      expect(game.current_player.active_pieces["pawn"][4].position).to eql(['e',7])
+    end
+
+    it "should return true if checking path is blocked by move" do
+      game.process_move(['pawn',['e',2],['e',3]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['d',7],['d',6]])
+      game.send(:switch_current_player)
+      game.process_move(['bishop',['f',1],['b',5]])
+      game.send(:switch_current_player)
+      expect(game.remove_check?(['pawn',['c',7],['c',6]])).to eql(true)
+      expect(game.current_player.active_pieces["pawn"][2].position).to eql(['c',7])
+    end
+
+    it "should return false if move does not remove the king from check" do
+      game.process_move(['pawn',['e',2],['e',3]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['d',7],['d',6]])
+      game.send(:switch_current_player)
+      game.process_move(['bishop',['f',1],['b',5]])
+      game.send(:switch_current_player)
+      expect(game.remove_check?(['pawn',['a',7],['a',6]])).to eql(false)
+      expect(game.current_player.active_pieces["pawn"][0].position).to eql(['a',7])
+    end
+  end
+
   describe "#input_in_range?" do
     it "should return true if all inputs are in board range" do
       expect(game.send(:input_in_range?, "pawn", ['a', 2], ['a', 3])).to eql(true)
