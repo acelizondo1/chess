@@ -56,7 +56,7 @@ describe Game do
 
     it "prompts user to enter move again if invalid input" do 
       allow(game).to receive(:gets).and_return("wrong input", "Closer format input", "EvenCloser bb a5", "a6 b5", "KiNg D5 c6")
-      expect{game.get_input}.to output("White player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\nWhite player please enter your move:\n").to_stdout
+      expect{game.get_input}.to output("White player please enter your move(enter 'help' for possible commands):\nWhite player please enter your move(enter 'help' for possible commands):\nWhite player please enter your move(enter 'help' for possible commands):\nWhite player please enter your move(enter 'help' for possible commands):\nWhite player please enter your move(enter 'help' for possible commands):\n").to_stdout
     end
 
     it "allows an input of a special command" do
