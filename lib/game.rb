@@ -44,7 +44,12 @@ class Game
     @board.update_board(@white_player.active_pieces, @black_player.active_pieces)
     if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
       @opponent_player.in_check = true
-      @winner = @current_player if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
+      if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
+        puts "Checkmate!"
+        @winner = @current_player 
+      else 
+        puts "#{@opponent_player.color.capitalize} player is in check!"
+      end
     end
   end
 
