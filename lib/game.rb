@@ -156,6 +156,16 @@ class Game
     exit(0)
   end
 
+  def load_game
+    load_data = YAML.load(File.read("save_game.yml"))
+    @white_player = load_data[:white_player]
+    @black_player = load_data[:black_player]
+    @board = load_data[:board]
+    @current_player = load_data[:current_player]
+    @opponent_player = load_data[:opponent_player]
+    @winner = [:winner]
+  end
+
   def run_special_command(command)
     case command
     when 'help'
@@ -166,9 +176,7 @@ class Game
     when 'save'
       save_game
     when 'load'
-
-    else
-
+      load_game
     end
   end
 end
