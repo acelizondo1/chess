@@ -33,6 +33,7 @@ class Game
         run_special_command(player_move)
       end
     end
+    @board.display_board
     puts "#{@winner.color.capitalize} player has won the game!"
   end
 
