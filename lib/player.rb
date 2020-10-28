@@ -1,3 +1,5 @@
+require './lib/pieces.rb'
+
 class Player
 attr_accessor :in_check
 attr_reader :color, :active_pieces, :eliminated_pieces
