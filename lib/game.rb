@@ -22,8 +22,10 @@ class Game
 
   def play_game
     until @winner
+      @board.display_board
       player_move = get_valid_move
       if player_move.class == Array
+        p player_move
         process_move(player_move)
         switch_current_player
       elsif @@SPECIAL_COMMANDS.include?(player_move)

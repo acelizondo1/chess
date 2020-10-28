@@ -13,7 +13,7 @@ describe Game do
     end
 
     it "plays a string of moves only running the valid ones" do
-      allow(game).to receive(:gets).and_return("pawn a2 a3", "rook a6 a3","knight g8 h6","pawn c2 c3","pawn h7 h6","pawn d7 d6","bishop f1 f2","qUEEN d1 a4")
+      allow(game).to receive(:gets).and_return("pawn a2 a3","rook a6 a3","knight g8 h6","pawn c2 c3","pawn h7 h6","pawn d7 d6","bishop f1 f2","qUEEN d1 a4")
       game.play_game
       expect(game.winner.color).to eql("white")
       expect(game.white_player.active_pieces['pawn'][0].position).to eql(['a',3])
@@ -22,15 +22,16 @@ describe Game do
       expect(game.black_player.active_pieces['pawn'][3].position).to eql(['d',6])
     end
 
+    it "plays a quick game to checkmate" do
+      allow(game).to receive(:gets).and_return("pawn e2 e3","pawn e7 e6","bishop f1 b5","knight b8 c6","queen d1 h5","knight g8 f6","queen h5 f7")
+      game.play_game
+      expect(game.winner.color).to eql("white")
+    end
+
     it "changes winner to opponent player when yield command is entered" do
       allow(game).to receive(:gets).and_return("yield")
       game.play_game
       expect(game.winner.color).to eql("black")
-    end
-
-    it "displays the help message when the help command is given" do
-      allow(game).to receive(:gets).and_return("help","yield")
-      expect{game.play_game}.to output("White player please enter your move(enter 'help' for possible commands):\nEnter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game\nWhite player please enter your move(enter 'help' for possible commands):\nWhite player has yielded\nBlack player has won the game!\n").to_stdout
     end
   end
 

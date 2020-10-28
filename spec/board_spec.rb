@@ -113,5 +113,28 @@ describe Board do
       black_pieces["pawn"][3].make_move(['d',5])
       expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
     end
+
+    it "returns true of king cannot eliminate or move away from checking piece" do
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["pawn"][4].make_move(['e',3])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][4].make_move(['e',5])
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["bishop"][1].make_move(['c',4])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["knight"][0].make_move(['c',6])
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["queen"][0].make_move(['h',5])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["knight"][1].make_move(['f',6])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"].each do |piece|
+        black_pieces["pawn"].delete(piece) if piece.position == ['f',7]
+      end
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["queen"][0].make_move(['f',7])
+      board.update_board(white_pieces, black_pieces)
+      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+    end
   end
 end

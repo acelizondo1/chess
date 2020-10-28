@@ -70,7 +70,7 @@ attr_reader :board
   end
 
   def is_checkmate?(player_pieces, king_position)
-    rows = 1..8
+    rows = 0..7
     columns = "a".."h"
     potential_king_moves = [[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1]]
     potential_king_moves.each do |move|
