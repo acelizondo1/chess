@@ -1,3 +1,5 @@
+require 'yaml'
+
 require './lib/player.rb'
 require './lib/board.rb'
 
@@ -137,6 +139,23 @@ class Game
     end
   end
 
+  def save_game
+    p "save"
+    File.open("save_game.yml", "w") do |file|
+      data = YAML.dump ({
+          :white_player => @white_player,
+          :black_player => @black_player,
+          :board => @board,
+          :current_player => @current_player,
+          :opponent_player => @opponent_player,
+          :winner => @winner
+      })
+      file.puts data
+    end
+    puts "You've successfully saved your game. Goodbye"
+    exit(0)
+  end
+
   def run_special_command(command)
     case command
     when 'help'
@@ -145,7 +164,7 @@ class Game
       @winner = @opponent_player
       puts "#{@current_player.color.capitalize} player has yielded"
     when 'save'
-
+      save_game
     when 'load'
 
     else

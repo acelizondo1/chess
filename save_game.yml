@@ -1,0 +1,376 @@
+---
+:white_player: &34 !ruby/object:Player
+  color: white
+  active_pieces:
+    rook:
+    - &1 !ruby/object:Rook
+      color: white
+      position:
+      - a
+      - 1
+      display_code: "♜"
+    - &29 !ruby/object:Rook
+      color: white
+      position:
+      - h
+      - 1
+      display_code: "♜"
+    knight:
+    - &5 !ruby/object:Knight
+      color: white
+      position:
+      - b
+      - 1
+      display_code: "♞"
+      moves:
+      - - 2
+        - 1
+      - - 2
+        - -1
+      - - 1
+        - 2
+      - - -1
+        - 2
+      - - 1
+        - -2
+      - - -1
+        - -2
+      - - -2
+        - 1
+      - - -2
+        - -1
+    - &25 !ruby/object:Knight
+      color: white
+      position:
+      - g
+      - 1
+      display_code: "♞"
+      moves:
+      - - 2
+        - 1
+      - - 2
+        - -1
+      - - 1
+        - 2
+      - - -1
+        - 2
+      - - 1
+        - -2
+      - - -1
+        - -2
+      - - -2
+        - 1
+      - - -2
+        - -1
+    bishop:
+    - &9 !ruby/object:Bishop
+      color: white
+      position:
+      - c
+      - 1
+      display_code: "♝"
+    - &21 !ruby/object:Bishop
+      color: white
+      position:
+      - f
+      - 1
+      display_code: "♝"
+    queen:
+    - &13 !ruby/object:Queen
+      color: white
+      position:
+      - d
+      - 1
+      display_code: "♛"
+    king:
+    - &17 !ruby/object:King
+      color: white
+      position:
+      - e
+      - 1
+      display_code: "♚"
+    pawn:
+    - &2 !ruby/object:Pawn
+      color: white
+      position:
+      - a
+      - 3
+      first_move: false
+      display_code: "♟"
+    - &6 !ruby/object:Pawn
+      color: white
+      position:
+      - b
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &10 !ruby/object:Pawn
+      color: white
+      position:
+      - c
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &14 !ruby/object:Pawn
+      color: white
+      position:
+      - d
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &18 !ruby/object:Pawn
+      color: white
+      position:
+      - e
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &22 !ruby/object:Pawn
+      color: white
+      position:
+      - f
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &26 !ruby/object:Pawn
+      color: white
+      position:
+      - g
+      - 2
+      first_move: true
+      display_code: "♟"
+    - &30 !ruby/object:Pawn
+      color: white
+      position:
+      - h
+      - 2
+      first_move: true
+      display_code: "♟"
+  eliminated_pieces: []
+  in_check: false
+:black_player: &33 !ruby/object:Player
+  color: black
+  active_pieces:
+    rook:
+    - &4 !ruby/object:Rook
+      color: black
+      position:
+      - a
+      - 8
+      display_code: "♖"
+    - &32 !ruby/object:Rook
+      color: black
+      position:
+      - h
+      - 8
+      display_code: "♖"
+    knight:
+    - &8 !ruby/object:Knight
+      color: black
+      position:
+      - b
+      - 8
+      display_code: "♘"
+      moves:
+      - - 2
+        - 1
+      - - 2
+        - -1
+      - - 1
+        - 2
+      - - -1
+        - 2
+      - - 1
+        - -2
+      - - -1
+        - -2
+      - - -2
+        - 1
+      - - -2
+        - -1
+    - &28 !ruby/object:Knight
+      color: black
+      position:
+      - g
+      - 8
+      display_code: "♘"
+      moves:
+      - - 2
+        - 1
+      - - 2
+        - -1
+      - - 1
+        - 2
+      - - -1
+        - 2
+      - - 1
+        - -2
+      - - -1
+        - -2
+      - - -2
+        - 1
+      - - -2
+        - -1
+    bishop:
+    - &12 !ruby/object:Bishop
+      color: black
+      position:
+      - c
+      - 8
+      display_code: "♗"
+    - &24 !ruby/object:Bishop
+      color: black
+      position:
+      - f
+      - 8
+      display_code: "♗"
+    queen:
+    - &16 !ruby/object:Queen
+      color: black
+      position:
+      - d
+      - 8
+      display_code: "♕"
+    king:
+    - &20 !ruby/object:King
+      color: black
+      position:
+      - e
+      - 8
+      display_code: "♔"
+    pawn:
+    - &3 !ruby/object:Pawn
+      color: black
+      position:
+      - a
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &7 !ruby/object:Pawn
+      color: black
+      position:
+      - b
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &11 !ruby/object:Pawn
+      color: black
+      position:
+      - c
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &15 !ruby/object:Pawn
+      color: black
+      position:
+      - d
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &19 !ruby/object:Pawn
+      color: black
+      position:
+      - e
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &23 !ruby/object:Pawn
+      color: black
+      position:
+      - f
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &27 !ruby/object:Pawn
+      color: black
+      position:
+      - g
+      - 7
+      first_move: true
+      display_code: "♙"
+    - &31 !ruby/object:Pawn
+      color: black
+      position:
+      - h
+      - 7
+      first_move: true
+      display_code: "♙"
+  eliminated_pieces: []
+  in_check: false
+:board: !ruby/object:Board
+  board:
+    a:
+    - *1
+    - 
+    - *2
+    - 
+    - 
+    - 
+    - *3
+    - *4
+    b:
+    - *5
+    - *6
+    - 
+    - 
+    - 
+    - 
+    - *7
+    - *8
+    c:
+    - *9
+    - *10
+    - 
+    - 
+    - 
+    - 
+    - *11
+    - *12
+    d:
+    - *13
+    - *14
+    - 
+    - 
+    - 
+    - 
+    - *15
+    - *16
+    e:
+    - *17
+    - *18
+    - 
+    - 
+    - 
+    - 
+    - *19
+    - *20
+    f:
+    - *21
+    - *22
+    - 
+    - 
+    - 
+    - 
+    - *23
+    - *24
+    g:
+    - *25
+    - *26
+    - 
+    - 
+    - 
+    - 
+    - *27
+    - *28
+    h:
+    - *29
+    - *30
+    - 
+    - 
+    - 
+    - 
+    - *31
+    - *32
+:current_player: *33
+:opponent_player: *34
+:winner: false
