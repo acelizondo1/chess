@@ -136,5 +136,24 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
     end
+
+    it "returns false if king is not in checkmate" do
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['c',3])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][3].make_move(['d',5])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"].each do |piece|
+        black_pieces["pawn"].delete(piece) if piece.position == ['d',5]
+      end
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['d',5])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][3].make_move(['e',5])
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['f',5])
+      board.update_board(white_pieces, black_pieces)
+      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(false)
+    end
   end
 end
