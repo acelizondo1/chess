@@ -111,7 +111,7 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       white_pieces["rook"][0].make_move(['d',6])
       black_pieces["pawn"][3].make_move(['d',5])
-      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+      expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(true)
     end
 
     it "returns true of king cannot eliminate or move away from checking piece" do
@@ -134,7 +134,7 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       white_pieces["queen"][0].make_move(['f',7])
       board.update_board(white_pieces, black_pieces)
-      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(true)
+      expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(true)
     end
 
     it "returns false if king is not in checkmate" do
@@ -153,7 +153,22 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       white_pieces["knight"][0].make_move(['f',5])
       board.update_board(white_pieces, black_pieces)
-      expect(board.is_checkmate?(white_pieces, black_pieces["king"][0].position)).to eql(false)
+      expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(false)
+    end
+
+    it "returns false if checking piece can be captured by a piece other than the king" do
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['c',3])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][0].make_move(['a',5])
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['d',5])
+      board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][1].make_move(['b',5])
+      board.update_board(white_pieces, black_pieces)
+      white_pieces["knight"][0].make_move(['f',5])
+      board.update_board(white_pieces, black_pieces)
+      expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(false)
     end
   end
 end

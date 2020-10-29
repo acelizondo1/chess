@@ -69,17 +69,42 @@ attr_reader :board
     false
   end
 
-  def is_checkmate?(player_pieces, king_position)
+  def is_checkmate?(checking_player_pieces, check_player_pieces)
     rows = 0..7
     columns = "a".."h"
     potential_king_moves = [[0,2],[2,2],[2,0],[2,-2],[0,-2],[-2,-2],[-2,0],[-2,2]]
+    king_position = check_player_pieces['king'][0].position
+    
     potential_king_moves.each do |move|
       row = king_position[1] + move[1]
       column = (king_position[0].ord+move[0]).chr
-      if (!is_check?(player_pieces, [column, row]) && columns.include?(column) && rows.include?(row) && board[column][row] == nil)
+      if (!is_check?(checking_player_pieces, [column, row]) && columns.include?(column) && rows.include?(row) && board[column][row] == nil)
         return false
       end
     end
+    check_pieces = return_check_pieces(checking_player_pieces, king_position)
+    check_player_pieces.each do |key, piece|
+      check_pieces.each do |check_piece|
+        if piece.is_valid_move?(check_piece.position) && board.clear_path(piece.map_path(check_piece.position))
+          return false
+        end
+      end
+    end
     true
+  end
+
+  private 
+  def return_check_pieces(player_pieces, king_position)
+    checking_pieces = []
+    player_pieces.each do |key, piece_types|
+      piece_types.each do |player_piece|
+        if player_piece.is_valid_move?(king_position)
+          if clear_path?(player_piece.map_path(king_position))
+            checking_pieces.push(piece)
+          end
+        end
+      end
+    end
+    checking_pieces
   end
 end
