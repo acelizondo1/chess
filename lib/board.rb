@@ -82,11 +82,13 @@ attr_reader :board
         return false
       end
     end
-    check_pieces = return_check_pieces(checking_player_pieces, king_position)
-    check_player_pieces.each do |key, piece|
-      check_pieces.each do |check_piece|
-        if piece.is_valid_move?(check_piece.position) && board.clear_path(piece.map_path(check_piece.position))
-          return false
+    checking_pieces = return_check_pieces(checking_player_pieces, king_position)
+    check_player_pieces.each do |key, check_type|
+      check_type.each do |check_piece|
+        checking_pieces.each do |checking_piece|
+          if (check_piece.is_valid_move?(checking_piece.position) || (check_piece.class == Pawn && check_piece.is_valid_move?(checking_piece.position, true))) && clear_path?(check_piece.map_path(checking_piece.position))
+            return false unless check_piece.class == King && is_check?(check_player_pieces, checking_piece.position)
+          end
         end
       end
     end
@@ -100,7 +102,7 @@ attr_reader :board
       piece_types.each do |player_piece|
         if player_piece.is_valid_move?(king_position)
           if clear_path?(player_piece.map_path(king_position))
-            checking_pieces.push(piece)
+            checking_pieces.push(player_piece)
           end
         end
       end

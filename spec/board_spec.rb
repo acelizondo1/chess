@@ -109,8 +109,12 @@ describe Board do
   describe "#is_checkmate?" do
     it "returns true if king cannot move out of check" do
       board.update_board(white_pieces, black_pieces)
-      white_pieces["rook"][0].make_move(['d',6])
-      black_pieces["pawn"][3].make_move(['d',5])
+      white_pieces["rook"][0].make_move(['e',5])
+      black_pieces["pawn"][4].make_move(['f',6])
+      black_pieces["pawn"].each do |piece|
+        black_pieces["pawn"].delete(piece) if piece.position == ['f',6]
+      end
+      board.update_board(white_pieces, black_pieces)
       expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(true)
     end
 
@@ -128,8 +132,9 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       black_pieces["knight"][1].make_move(['f',6])
       board.update_board(white_pieces, black_pieces)
+      black_pieces["pawn"][5].make_move(['f',5])
       black_pieces["pawn"].each do |piece|
-        black_pieces["pawn"].delete(piece) if piece.position == ['f',7]
+        black_pieces["pawn"].delete(piece) if piece.position == ['f',5]
       end
       board.update_board(white_pieces, black_pieces)
       white_pieces["queen"][0].make_move(['f',7])
@@ -166,7 +171,7 @@ describe Board do
       board.update_board(white_pieces, black_pieces)
       black_pieces["pawn"][1].make_move(['b',5])
       board.update_board(white_pieces, black_pieces)
-      white_pieces["knight"][0].make_move(['f',5])
+      white_pieces["knight"][0].make_move(['f',6])
       board.update_board(white_pieces, black_pieces)
       expect(board.is_checkmate?(white_pieces, black_pieces)).to eql(false)
     end

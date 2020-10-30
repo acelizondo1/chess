@@ -51,10 +51,17 @@ describe Game do
       expect(game.opponent_player.eliminated_pieces[0].class).to eql(Pawn)
     end
 
-    it "updates a piece and also checks if move puts king in checkmate" do
-      game.process_move(['knight',['b',1],['c',3]])
-      game.process_move(['knight',['c',3],['d',5]])
-      game.process_move(['knight',['d',5],['f',6]])
+    it "updates a piece and also checks if move puts king in checkmate"do
+      game.process_move(['pawn',['e',2],['e',3]])
+      game.send(:switch_current_player)
+      game.process_move(['pawn',['f',7],['f',6]])
+      game.process_move(['pawn',['h',7],['h',5]])
+      game.send(:switch_current_player)
+      game.process_move(['queen',['d',1],['h',5]])
+      game.process_move(['queen',['h',5],['h',8]])
+      game.process_move(['queen',['h',8],['h',5]])
+      p game.current_player.color
+      game.board.display_board
       expect(game.winner.color).to eql("white")
       expect(game.opponent_player.in_check).to eql(true)
     end
