@@ -1,4 +1,4 @@
 require './lib/game.rb'
 
 game = Game.new
-game.play_game
+game.start_game

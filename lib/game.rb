@@ -19,7 +19,19 @@ class Game
   end
 
   def start_game
+    game_type = ""
+    until game_type == "load" || game_type == "new"
+      puts "Would you like to:\nStart a new game(new) or Load the last saved game(load)"
+      game_type = gets.chomp.downcase
+    end
 
+    case game_type
+    when "new"
+
+    when "load"
+      load_game
+    end
+    play_game
   end
 
   def play_game
@@ -169,7 +181,7 @@ class Game
     @board = load_data[:board]
     @current_player = load_data[:current_player]
     @opponent_player = load_data[:opponent_player]
-    @winner = [:winner]
+    @winner = load_data[:winner]
   end
 
   def run_special_command(command)

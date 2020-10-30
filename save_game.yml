@@ -1,5 +1,5 @@
 ---
-:white_player: &34 !ruby/object:Player
+:white_player: &33 !ruby/object:Player
   color: white
   active_pieces:
     rook:
@@ -9,7 +9,7 @@
       - a
       - 1
       display_code: "♜"
-    - &29 !ruby/object:Rook
+    - &28 !ruby/object:Rook
       color: white
       position:
       - h
@@ -139,7 +139,7 @@
       - 2
       first_move: true
       display_code: "♟"
-    - &30 !ruby/object:Pawn
+    - &29 !ruby/object:Pawn
       color: white
       position:
       - h
@@ -148,7 +148,7 @@
       display_code: "♟"
   eliminated_pieces: []
   in_check: false
-:black_player: &33 !ruby/object:Player
+:black_player: &34 !ruby/object:Player
   color: black
   active_pieces:
     rook:
@@ -188,11 +188,11 @@
         - 1
       - - -2
         - -1
-    - &28 !ruby/object:Knight
+    - &30 !ruby/object:Knight
       color: black
       position:
-      - g
-      - 8
+      - h
+      - 6
       display_code: "♘"
       moves:
       - - 2
@@ -361,14 +361,14 @@
     - 
     - 
     - *27
-    - *28
+    - 
     h:
+    - *28
     - *29
+    - 
+    - 
+    - 
     - *30
-    - 
-    - 
-    - 
-    - 
     - *31
     - *32
 :current_player: *33
