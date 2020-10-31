@@ -44,6 +44,30 @@ describe GamePiece do
       expect(piece.is_move_diagonal?(['d', 8])).to eql(false)
     end
   end
+
+  describe "#generate_random_move_straight" do
+    it "returns a valid move on the board" do
+      expect(('a'..'h').include?(piece.send(:generate_rand_move_straight)[0])).to eql(true)
+      expect((1..8).include?(piece.send(:generate_rand_move_straight)[1])).to eql(true)
+    end
+
+    it "returns a valid move in the limit given in parameters" do
+      move = piece.send(:generate_rand_move_straight, 1)
+      expect(piece.is_move_straight?(move)).to eql(1)
+    end
+  end
+
+  describe "#generate_random_move_diagonal" do
+    it "returns a valid move on the board" do
+      expect(('a'..'h').include?(piece.send(:generate_rand_move_diagonal)[0])).to eql(true)
+      expect((1..8).include?(piece.send(:generate_rand_move_diagonal)[1])).to eql(true)
+    end
+
+    it "returns a valid move in the limit given in parameters" do
+      move = piece.send(:generate_rand_move_diagonal, 1)
+      expect(piece.is_move_diagonal?(move)).to eql(1)
+    end
+  end
 end
 
 describe King do
@@ -148,6 +172,15 @@ describe Knight do
 
     it "returns false on invalid move" do
       expect(knight.is_valid_move?(['e',5])).to eql(false)
+    end
+  end
+
+  describe "#generate_random_move" do
+    it "returns a valid move that is on the board" do
+      move = knight.send(:generate_random_move)
+      p move
+      expect(('a'..'h').include?(move[0])).to eql(true)
+      expect((1..8).include?(move[1])).to eql(true)
     end
   end
 end

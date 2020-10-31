@@ -1,5 +1,9 @@
 class GamePiece
   attr_reader :color, :position
+
+  @@COLUMNS = ('a'..'h')
+  @@ROWS = (1..8)
+
   def initialize(color, position)
     @color = color
     @position = position
@@ -115,6 +119,53 @@ class GamePiece
     end
     path_array
   end
+
+  private
+  def generate_rand_move_straight(limit=false)
+    direction = ["left", "right", "forward", "behind"].shuffle.first
+    move = ["",0]
+    until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      limit ? distance = rand(1..limit) : distance = rand(1..7)
+      case direction
+      when "left"
+        move[0] = (position[0].ord-distance).chr
+        move[1] = position[1]
+      when "right"
+        move[0] = (position[0].ord+distance).chr
+        move[1] = position[1]
+      when "forward"
+        move[0] = position[0]
+        move[1] = position[1] + distance
+      when "behind"
+        move[0] = position[0]
+        move[1] = position[1] - distance
+      end
+    end
+    move
+  end
+
+  def generate_rand_move_diagonal(limit=false)
+    direction = ["behind-left", "behind-right", "forward-left", "forward-right"].shuffle.first
+    move = ["",0]
+    until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      limit ? distance = rand(1..limit) : distance = rand(1..7)
+      case direction
+      when "behind-left"
+        move[0] = (position[0].ord-distance).chr
+        move[1] = position[1] - distance
+      when "behind-right"
+        move[0] = (position[0].ord+distance).chr
+        move[1] = position[1] - distance
+      when "forward-left"
+        move[0] = (position[0].ord-distance).chr
+        move[1] = position[1] + distance
+      when "forward-right"
+        move[0] = (position[0].ord+distance).chr
+        move[1] = position[1] + distance
+      end
+    end
+    move
+  end
 end
 
 class King < GamePiece
@@ -135,6 +186,16 @@ class King < GamePiece
 
   def map_path(new_position)
     is_valid_move?(new_position) ? path_array = [@position, new_position] : false
+  end
+
+  def generate_random_move
+    case rand(1)
+    when 0
+      move = generate_rand_move_straight(1)
+    when 1
+      move = generate_rand_move_diagonal(1)
+    end
+    move
   end
 end
 
@@ -163,6 +224,16 @@ class Queen < GamePiece
       false
     end
   end
+
+  def generate_random_move
+    case rand(1)
+    when 0
+      move = generate_rand_move_straight
+    when 1
+      move = generate_rand_move_diagonal
+    end
+    move
+  end
 end
 
 class Bishop < GamePiece
@@ -183,6 +254,10 @@ class Bishop < GamePiece
 
   def map_path(new_position)
     is_move_diagonal?(new_position) ? map_diagonal_path(new_position) : false
+  end
+
+  def generate_random_move
+    generate_rand_move_diagonal
   end
 end
 
@@ -209,6 +284,16 @@ class Knight < GamePiece
   def map_path(new_position)
     is_valid_move?(new_position) ? [@postion, new_position] : false 
   end
+
+  def generate_random_move
+    direction = @moves.shuffle.first
+    move = ["",0]
+    until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      move[0] = (position[0].ord+direction[0]).chr
+      move[1] = position[1] + direction[1]
+    end
+    move
+  end
 end
 
 class Rook < GamePiece
@@ -229,6 +314,10 @@ class Rook < GamePiece
 
   def map_path(new_position)
     is_move_straight?(new_position) ? map_straight_path(new_position) : false
+  end
+
+  def generate_random_move
+    generate_rand_move_straight
   end
 end
 
@@ -284,5 +373,16 @@ class Pawn < GamePiece
 
   def map_path(new_position)
     is_valid_move?(new_position) ? [@postion, new_position] : false
+  end
+
+  def generate_random_move
+    case rand(1)
+    when 0
+      @first_move ? limit = 2 : limit = 1 
+      move = generate_rand_move_straight(limit)
+    when 1
+      move = generate_rand_move_diagonal(1)
+    end
+    move
   end
 end
