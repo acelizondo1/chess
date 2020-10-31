@@ -8,7 +8,6 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     @active_pieces = load_start_pieces
     @eliminated_pieces = []
     @in_check = false
-    @computer = false
   end
 
   def make_move(piece, position, destination)
@@ -74,5 +73,15 @@ attr_reader :color, :active_pieces, :eliminated_pieces
       pieces["pawn"].push(Pawn.new(color, positions[i]))
     end
     pieces
+  end
+end
+
+class ComputerPlayer < Player
+  @@PIECE_NAMES = ["king","queen","bishop","knight","rook","pawn"]
+
+  def generate_random_move
+    rand_piece_type = @@PIECE_NAMES.shuffle.first
+    rand_piece = @active_pieces[rand_piece_type].shuffle.first
+    random_move = [rand_piece_type, rand_piece.position, rand_piece.generate_random_move]
   end
 end

@@ -30,9 +30,9 @@ class Game
       player_type = ""
       until player_type == "player" || player_type == "computer"
         puts "Who is your opponent:\nAnother player(player) or The computer(computer)"
-        game_type = gets.strip.downcase
+        player_type = gets.strip.downcase
       end
-      @black_player.computer = true if player_type == "computer"
+      @black_player = ComputerPlayer.new("black") if player_type == "computer"
     when "load"
       load_game
     end
