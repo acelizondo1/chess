@@ -8,6 +8,7 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     @active_pieces = load_start_pieces
     @eliminated_pieces = []
     @in_check = false
+    @computer = false
   end
 
   def make_move(piece, position, destination)

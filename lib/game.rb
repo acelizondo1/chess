@@ -22,12 +22,17 @@ class Game
     game_type = ""
     until game_type == "load" || game_type == "new"
       puts "Would you like to:\nStart a new game(new) or Load the last saved game(load)"
-      game_type = gets.chomp.downcase
+      game_type = gets.strip.downcase
     end
 
     case game_type
     when "new"
-
+      player_type = ""
+      until player_type == "player" || player_type == "computer"
+        puts "Who is your opponent:\nAnother player(player) or The computer(computer)"
+        game_type = gets.strip.downcase
+      end
+      @black_player.computer = true if player_type == "computer"
     when "load"
       load_game
     end
