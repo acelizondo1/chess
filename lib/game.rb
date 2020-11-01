@@ -41,7 +41,7 @@ class Game
 
   def play_game
     until @winner
-      @board.display_board
+      @board.display_board(@white_player.eliminated_pieces,@black_player.eliminated_pieces)
       player_move = get_valid_move
       if player_move.class == Array
         process_move(player_move)
@@ -50,7 +50,7 @@ class Game
         run_special_command(player_move)
       end
     end
-    @board.display_board
+    @board.display_board(@white_player.eliminated_pieces,@black_player.eliminated_pieces)
     puts "#{@winner.color.capitalize} player has won the game!"
   end
 

@@ -7,7 +7,7 @@ attr_reader :board
     end
   end
 
-  def display_board
+  def display_board(white_pieces, black_pieces)
     puts "  a   b   c   d   e   f   g   h  "
     puts "  --------------------------------"
     (0..7).reverse_each.each do |row|
@@ -15,6 +15,13 @@ attr_reader :board
       ("a".."h").each do |column|
         space = @board[column][row] ? @board[column][row].display_code: " "
         board_row += " #{space} |"
+        if column == 'a' || column == 'h'
+          column == 'a' ? iterating_player = white_pieces : iterating_player = black_pieces
+          board_row += " "
+          iterating_player.each do |piece|
+            board_row += piece.display_code
+          end
+        end
       end
       puts board_row
       puts "  --------------------------------"

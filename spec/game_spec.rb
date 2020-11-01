@@ -60,8 +60,6 @@ describe Game do
       game.process_move(['queen',['d',1],['h',5]])
       game.process_move(['queen',['h',5],['h',8]])
       game.process_move(['queen',['h',8],['h',5]])
-      p game.current_player.color
-      game.board.display_board
       expect(game.winner.color).to eql("white")
       expect(game.opponent_player.in_check).to eql(true)
     end
