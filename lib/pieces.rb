@@ -1,5 +1,5 @@
 class GamePiece
-  attr_reader :color, :position
+  attr_reader :color, :position, :start
 
   @@COLUMNS = ('a'..'h')
   @@ROWS = (1..8)
@@ -7,6 +7,7 @@ class GamePiece
   def initialize(color, position)
     @color = color
     @position = position
+    @start = position
   end
 
   def is_move_straight?(new_position)

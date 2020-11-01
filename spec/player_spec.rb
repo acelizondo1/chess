@@ -57,4 +57,22 @@ describe Player do
       expect{white_player.eliminate_piece(pawn_to_eliminate)}.to_not change{white_player.active_pieces}
     end
   end
+
+  describe "#castle_eligible" do
+    it "returns position of roook if the king and one of rooks have not left their starting positions" do
+      white_player.make_move('rook', ['a',1], ['d',2])
+      expect(white_player.castle_eligible).to eql(['h',1])
+    end
+
+    it "returns false if both of the rooks have left their starting position" do
+      white_player.make_move('rook', ['a',1], ['d',2])
+      white_player.make_move('rook', ['h',1], ['h',4])
+      expect(white_player.castle_eligible).to eql(false)
+    end
+
+    it "returns false if the king has left its starting position" do
+      white_player.make_move('king', ['e',1], ['e',3])
+      expect(white_player.castle_eligible).to eql(false)
+    end
+  end
 end

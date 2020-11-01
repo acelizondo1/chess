@@ -57,6 +57,15 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
+  def castle_eligible
+    if @active_pieces['king'][0].position == @active_pieces['king'][0].start
+      @active_pieces['rook'].each do |rook|
+        return rook.position if rook.position == rook.start
+      end
+    end
+    false
+  end
+
   private
   def load_start_pieces
     pieces = {}

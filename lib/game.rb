@@ -6,7 +6,7 @@ require './lib/board.rb'
 class Game
   attr_reader :current_player, :opponent_player, :board, :winner, :white_player, :black_player
 
-  @@SPECIAL_COMMANDS = ["help", "yield", "save", "yield"]
+  @@SPECIAL_COMMANDS = ["help", "yield", "save", "yield", "castle"]
 
   def initialize
     @white_player = Player.new("white")
@@ -196,6 +196,23 @@ class Game
     @winner = load_data[:winner]
   end
 
+  def player_castle
+    castle_eligible = @current_player.castle_eligible
+    if castle_eligible
+      path = @current_player.map_path("king", @current_player.active_pieces['king'][0].position, castle_eligible)
+      if @board.clear_path?(path[1..path.length-2])
+        path[0..path.length-2].each do |spot|
+          return false if @board.is_check(@opponent_player, spot)
+        end
+        @current_player.make_move('king', @current_player.active_pieces['king'][0].position, path[2])
+        @current_player.make_move('rook', castle_eligible, path[1])
+        true
+      end
+    else
+      false
+    end
+  end
+
   def run_special_command(command)
     case command
     when 'help'
@@ -207,6 +224,8 @@ class Game
       save_game
     when 'load'
       load_game
+    when 'castle'
+      player_castle
     end
   end
 end
