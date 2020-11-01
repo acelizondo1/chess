@@ -55,6 +55,9 @@ class Game
   end
 
   def process_move(player_move)
+    if @current_player.class == ComputerPlayer
+      puts "Computer has made the move #{player_move[0]} #{player_move[1][0]}#{player_move[1][1]} #{player_move[2][0]}#{player_move[2][1]}"
+    end
     if @opponent_player.space_occupied?(player_move[2])
       @opponent_player.eliminate_piece(player_move[2])
     end
@@ -75,7 +78,11 @@ class Game
     valid_move = false
     clear_path = false
     until valid_move && clear_path
-      player_move = get_input
+      unless @current_player.class == ComputerPlayer
+        player_move = get_input
+      else
+        player_move = @black_player.generate_random_move
+      end
       if @@SPECIAL_COMMANDS.include?(player_move)
         break
       else

@@ -122,9 +122,9 @@ class GamePiece
 
   private
   def generate_rand_move_straight(limit=false)
-    direction = ["left", "right", "forward", "behind"].shuffle.first
     move = ["",0]
     until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      direction = ["left", "right", "forward", "behind"].shuffle.first
       limit ? distance = rand(1..limit) : distance = rand(1..7)
       case direction
       when "left"
@@ -145,9 +145,9 @@ class GamePiece
   end
 
   def generate_rand_move_diagonal(limit=false)
-    direction = ["behind-left", "behind-right", "forward-left", "forward-right"].shuffle.first
     move = ["",0]
     until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      direction = ["behind-left", "behind-right", "forward-left", "forward-right"].shuffle.first
       limit ? distance = rand(1..limit) : distance = rand(1..7)
       case direction
       when "behind-left"
@@ -286,9 +286,9 @@ class Knight < GamePiece
   end
 
   def generate_random_move
-    direction = @moves.shuffle.first
     move = ["",0]
     until @@COLUMNS.include?(move[0]) && @@ROWS.include?(move[1])
+      direction = @moves.shuffle.first
       move[0] = (position[0].ord+direction[0]).chr
       move[1] = position[1] + direction[1]
     end
