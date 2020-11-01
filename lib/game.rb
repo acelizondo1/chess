@@ -226,7 +226,7 @@ class Game
   def run_special_command(command)
     case command
     when 'help'
-      puts "Enter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game"
+      puts "Enter in a valid move in the format 'piece current_position desitination' eg. 'pawn a2 a3'\nEnter 'castle' to run the move when valid\n\nEnter 'yield' to forfeit the game\nEnter 'save' to save your current match'\nEnter 'load' to load the last saved game"
     when 'yield'
       @winner = @opponent_player
       puts "#{@current_player.color.capitalize} player has yielded"
