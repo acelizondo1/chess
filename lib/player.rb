@@ -72,6 +72,13 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
+  def find_piece(piece_type, position)
+    active_pieces[piece_type].each do |piece|
+      return piece if piece.position == position
+    end
+    false
+  end
+
   private
   def load_start_pieces
     pieces = {}

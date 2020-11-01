@@ -338,35 +338,35 @@ class Pawn < GamePiece
   def is_valid_move?(new_position, overtake=false)
     if is_move_straight?(new_position) == 1 || (is_move_diagonal?(new_position) == 1 && overtake) || (is_move_straight?(new_position) == 2 && @first_move)
       if @color == "white"
-        if overtake
-          right = (position[0].ord+1).chr
-          left = (position[0].ord-1).chr
-          if [right, position[1]+1] == new_position || [left, position[1]+1] == new_position
-            new_position
-          else
-            false
-          end
-        elsif @first_move && is_move_straight?(new_position) == 2
+        if @first_move && is_move_straight?(new_position) == 2
           @position[1]+2 == new_position[1] ? new_position : false
         else
+          if overtake
+            right = (position[0].ord+1).chr
+            left = (position[0].ord-1).chr
+            
+            if [right, position[1]+1] == new_position || [left, position[1]+1] == new_position
+              return new_position
+            end
+          end
           @position[1]+1 == new_position[1] ? new_position : false
         end 
       else
-        if overtake
-          right = (position[0].ord+1).chr
-          left = (position[0].ord-1).chr
-          if [right, position[1]-1] == new_position || [left, position[1]-1] == new_position
-            new_position
-          else
-            false
-          end
-        elsif @first_move && is_move_straight?(new_position) == 2
+        if @first_move && is_move_straight?(new_position) == 2
           @position[1]-2 == new_position[1] ? new_position : false
         else
+          if overtake
+            right = (position[0].ord+1).chr
+            left = (position[0].ord-1).chr
+            if [right, position[1]-1] == new_position || [left, position[1]-1] == new_position
+              return new_position
+            end
+          end
           @position[1]-1 == new_position[1] ? new_position : false
         end 
       end
     else
+      p "last"
       false
     end
   end

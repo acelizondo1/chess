@@ -48,10 +48,16 @@ describe Game do
       expect(game.board.board['h'][0].class).to eql(Rook)
     end
 
-    it "allows a pawn diagonal forward overtake", :focus do
+    it "allows a pawn diagonal forward overtake" do
       allow(game).to receive(:gets).and_return("pawn e2 e4","pawn d7 d5","pawn e4 d5","yield")
       game.play_game
       expect(game.board.board['d'][4].color).to eql("white")
+    end
+
+    it "allows promotion of pawn" do
+      allow(game).to receive(:gets).and_return("pawn g2 g4","pawn h7 h5","pawn g4 h5","pawn a7 a6","pawn h5 h6","pawn a6 a5","pawn h6 h7","pawn a5 a4","pawn h7 h8","queen","pawn a4 a3","queen h8 h5","yield")
+      game.play_game
+      expect(game.board.board['h'][4].class).to eql(Queen)
     end
   end
 
@@ -170,6 +176,24 @@ describe Game do
       game.send(:switch_current_player)
       expect(game.remove_check?(['pawn',['a',7],['a',6]])).to eql(false)
       expect(game.current_player.active_pieces["pawn"][0].position).to eql(['a',7])
+    end
+  end
+
+  describe "#pawn_promotion" do
+    it "returns true and promotes to piece user inputs if pawn is eligible for promotion" do
+      allow(game).to receive(:gets).and_return("queen")
+      game.black_player.make_move("pawn",['a',7],['a',5])
+      game.board.update_board(game.white_player.active_pieces,game.black_player.active_pieces)
+      game.black_player.make_move("rook",['a',8],['a',6])
+      game.board.update_board(game.white_player.active_pieces,game.black_player.active_pieces)
+      game.white_player.make_move("pawn",['a',2],['a',8])
+      game.board.update_board(game.white_player.active_pieces,game.black_player.active_pieces)
+      expect(game.pawn_promotion(game.white_player.active_pieces['pawn'][0])).to eql(true)
+      expect(game.board.board['a'][7].class).to eql(Queen)
+    end
+
+    it "returns false if pawn is not in promotion position" do
+      expect(game.pawn_promotion(game.black_player.active_pieces["pawn"][3])).to eql(false)
     end
   end
 

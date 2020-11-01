@@ -72,6 +72,7 @@ class Game
         puts "#{@opponent_player.color.capitalize} player is in check!"
       end
     end
+    pawn_promotion(@current_player.find_piece(player_move[0],player_move[2])) if player_move[0] == "pawn"
   end
 
   def get_valid_move 
@@ -83,6 +84,7 @@ class Game
       else
         player_move = @black_player.generate_random_move
       end
+      p player_move
       if @@SPECIAL_COMMANDS.include?(player_move)
         if player_move == "castle"
           break if player_castle
@@ -93,11 +95,12 @@ class Game
         if @opponent_player.space_occupied?(player_move[2]) && player_move[0] == "pawn"
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2],true)
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2],true))
+          p valid_move
+          p clear_path
         else
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
         end
-        p clear_path
         unless !@current_player.in_check || (@current_player.in_check && remove_check?(player_move))
           valid_move = false
           clear_path = false
@@ -160,6 +163,33 @@ class Game
     else
       false
     end
+  end
+
+  def pawn_promotion(pawn)
+    promotion_pieces = ["queen","bishop","knight","rook"]
+    if (pawn.color == "white" && pawn.position[1] == 8) || (pawn.color == "black" && pawn.position[1] == 1)
+      promotion_type = ""
+      until promotion_pieces.include?(promotion_type)
+        puts "What would you like to promote your pawn to?"
+        promotion_type = gets.strip.downcase
+      end
+      case promotion_type
+      when "queen"
+        promotion_piece = Queen.new(pawn.color, pawn.position)
+      when "bishop"
+        promotion_piece = Bishop.new(pawn.color, pawn.position)
+      when "knight"
+        promotion_piece = Knight.new(pawn.color, pawn.position)
+      when "rook"
+        promotion_piece = Rook.new(pawn.color, pawn.position)
+      end
+
+      @current_player.active_pieces["pawn"].delete(pawn)
+      @current_player.active_pieces[promotion_type].push(promotion_piece)
+      @board.update_board(white_player.active_pieces, @black_player.active_pieces)
+      return true
+    end
+    return false
   end
 
   private
