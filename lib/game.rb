@@ -46,7 +46,7 @@ class Game
       if player_move.class == Array
         process_move(player_move)
         switch_current_player
-      elsif @@SPECIAL_COMMANDS.include?(player_move)
+      elsif @@SPECIAL_COMMANDS.include?(player_move) && player_move != "castle"
         run_special_command(player_move)
       end
     end
@@ -84,7 +84,11 @@ class Game
         player_move = @black_player.generate_random_move
       end
       if @@SPECIAL_COMMANDS.include?(player_move)
-        break
+        if player_move == "castle"
+          break if player_castle
+        else
+          break
+        end
       else
         valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
         clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
@@ -127,6 +131,29 @@ class Game
     board_copy.update_board(current_player_copy.active_pieces, opponent_player_copy.active_pieces)
 
     board_copy.is_check?(opponent_player_copy.active_pieces,current_player_copy.active_pieces['king'][0].position) ? false : true
+  end
+
+  def player_castle
+    castle_eligible = @current_player.castle_eligible
+    if castle_eligible
+      paths = []
+      castle_eligible.each do |position|
+        paths.push(@current_player.map_path("king", @current_player.active_pieces['king'][0].position, position,true))
+      end
+      paths.each do |path|
+        if @board.clear_path?(path[1..path.length-2])
+          path[0..path.length-2].each do |spot|
+            return false if @board.is_check?(@opponent_player.active_pieces, spot)
+          end
+          @current_player.make_move('king', @current_player.active_pieces['king'][0].position, path[2])
+          @current_player.make_move('rook', path[path.length-1], path[1])
+          @board.update_board(@current_player.active_pieces, @opponent_player.active_pieces)
+          return true
+        end
+      end
+    else
+      false
+    end
   end
 
   private
@@ -196,23 +223,6 @@ class Game
     @winner = load_data[:winner]
   end
 
-  def player_castle
-    castle_eligible = @current_player.castle_eligible
-    if castle_eligible
-      path = @current_player.map_path("king", @current_player.active_pieces['king'][0].position, castle_eligible)
-      if @board.clear_path?(path[1..path.length-2])
-        path[0..path.length-2].each do |spot|
-          return false if @board.is_check(@opponent_player, spot)
-        end
-        @current_player.make_move('king', @current_player.active_pieces['king'][0].position, path[2])
-        @current_player.make_move('rook', castle_eligible, path[1])
-        true
-      end
-    else
-      false
-    end
-  end
-
   def run_special_command(command)
     case command
     when 'help'
@@ -224,8 +234,6 @@ class Game
       save_game
     when 'load'
       load_game
-    when 'castle'
-      player_castle
     end
   end
 end

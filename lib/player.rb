@@ -41,9 +41,11 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     
   end
 
-  def map_path(piece, position, destination)
+  def map_path(piece, position, destination, castle=false)
     @active_pieces[piece].each do |target_piece|
-      return target_piece.map_path(destination) if target_piece.position == position
+      if target_piece.position == position
+        castle ? (return target_piece.map_path(destination,true)) : (return target_piece.map_path(destination)) 
+      end
     end
     false
   end
@@ -58,10 +60,12 @@ attr_reader :color, :active_pieces, :eliminated_pieces
   end
 
   def castle_eligible
+    eligible_rooks = []
     if @active_pieces['king'][0].position == @active_pieces['king'][0].start
       @active_pieces['rook'].each do |rook|
-        return rook.position if rook.position == rook.start
+        eligible_rooks.push(rook.position) if rook.position == rook.start
       end
+      return eligible_rooks unless eligible_rooks.length == 0
     end
     false
   end

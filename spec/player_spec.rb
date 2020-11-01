@@ -61,7 +61,7 @@ describe Player do
   describe "#castle_eligible" do
     it "returns position of roook if the king and one of rooks have not left their starting positions" do
       white_player.make_move('rook', ['a',1], ['d',2])
-      expect(white_player.castle_eligible).to eql(['h',1])
+      expect(white_player.castle_eligible).to eql([['h',1]])
     end
 
     it "returns false if both of the rooks have left their starting position" do

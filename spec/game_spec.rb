@@ -33,6 +33,20 @@ describe Game do
       game.play_game
       expect(game.winner.color).to eql("black")
     end
+
+    it "processes valid castle move" do
+      allow(game).to receive(:gets).and_return("pawn e2 e4","pawn e7 e5","knight g1 f3","knight g8 f6","bishop f1 e2","pawn h7 h5","castle","yield")
+      game.play_game
+      expect(game.board.board['g'][0].class).to eql(King)
+      expect(game.board.board['f'][0].class).to eql(Rook)
+    end
+
+    it "ignores a castle request if not valid" do
+      allow(game).to receive(:gets).and_return("pawn e2 e4","knight g8 f6","knight g1 f3","knight f6 g4","bishop f1 e2","knight g4 e3","castle","yield")
+      game.play_game
+      expect(game.board.board['e'][0].class).to eql(King)
+      expect(game.board.board['h'][0].class).to eql(Rook)
+    end
   end
 
   describe "#process_move" do

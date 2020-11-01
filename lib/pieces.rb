@@ -185,9 +185,13 @@ class King < GamePiece
     end
   end
 
-  def map_path(new_position)
-    is_valid_move?(new_position) ? path_array = [@position, new_position] : false
-  end
+  def map_path(new_position, castle=false)
+    if castle
+      map_straight_path(new_position)
+    else
+      is_valid_move?(new_position) ? path_array = [@position, new_position] : false
+    end
+    end
 
   def generate_random_move
     case rand(1)
