@@ -15,8 +15,8 @@ attr_reader :board
       ("a".."h").each do |column|
         space = @board[column][row] ? @board[column][row].display_code: " "
         board_row += " #{space} |"
-        if column == 'a' || column == 'h'
-          column == 'a' ? iterating_player = white_pieces : iterating_player = black_pieces
+        if row == 0 || row == 7
+          row == 0 ? iterating_player = white_pieces : iterating_player = black_pieces
           board_row += " "
           iterating_player.each do |piece|
             board_row += piece.display_code
