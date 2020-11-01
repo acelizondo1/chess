@@ -17,10 +17,12 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
-  def is_valid_move?(piece, position, destination)
+  def is_valid_move?(piece, position, destination, pawn_overtake=false)
     @active_pieces[piece].each do |target_piece|
       unless space_occupied?(destination)
-        return target_piece.is_valid_move?(destination) if target_piece.position == position
+        if target_piece.position == position
+          pawn_overtake ? (return target_piece.is_valid_move?(destination, pawn_overtake)) : (return target_piece.is_valid_move?(destination))  
+        end
       else 
         return false
       end
@@ -41,10 +43,10 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     
   end
 
-  def map_path(piece, position, destination, castle=false)
+  def map_path(piece, position, destination, special=false)
     @active_pieces[piece].each do |target_piece|
       if target_piece.position == position
-        castle ? (return target_piece.map_path(destination,true)) : (return target_piece.map_path(destination)) 
+        special ? (return target_piece.map_path(destination,true)) : (return target_piece.map_path(destination)) 
       end
     end
     false

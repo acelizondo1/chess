@@ -47,6 +47,12 @@ describe Game do
       expect(game.board.board['e'][0].class).to eql(King)
       expect(game.board.board['h'][0].class).to eql(Rook)
     end
+
+    it "allows a pawn diagonal forward overtake", :focus do
+      allow(game).to receive(:gets).and_return("pawn e2 e4","pawn d7 d5","pawn e4 d5","yield")
+      game.play_game
+      expect(game.board.board['d'][4].color).to eql("white")
+    end
   end
 
   describe "#process_move" do

@@ -56,6 +56,10 @@ describe Player do
       white_player.eliminate_piece(pawn_to_eliminate)
       expect{white_player.eliminate_piece(pawn_to_eliminate)}.to_not change{white_player.active_pieces}
     end
+
+    it "returns true if pawn is overtaking and the position is forward left" do
+      expect(white_player.is_valid_move?('pawn',['e',2],['d',3],true)).to eql(['d',3])
+    end
   end
 
   describe "#castle_eligible" do

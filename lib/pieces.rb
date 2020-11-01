@@ -376,8 +376,8 @@ class Pawn < GamePiece
     @first_move = false if @first_move
   end
 
-  def map_path(new_position)
-    is_valid_move?(new_position) ? [@postion, new_position] : false
+  def map_path(new_position, overtake=false)
+    (overtake || is_valid_move?(new_position)) ? [@postion, new_position] : false
   end
 
   def generate_random_move
