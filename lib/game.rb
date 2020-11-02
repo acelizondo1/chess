@@ -12,7 +12,7 @@ class Game
     @white_player = Player.new("white")
     @black_player = Player.new("black")
     @board = Board.new
-    @board.update_board(@white_player.active_pieces,@black_player.active_pieces)
+    update_board
     @current_player = @white_player
     @opponent_player = @black_player
     @winner = false
@@ -62,7 +62,7 @@ class Game
       @opponent_player.eliminate_piece(player_move[2])
     end
     @current_player.make_move(player_move[0],player_move[1],player_move[2])
-    @board.update_board(@white_player.active_pieces, @black_player.active_pieces)
+    update_board
     if @board.is_check?(@current_player.active_pieces,@opponent_player.active_pieces['king'][0].position)
       @opponent_player.in_check = true
       if @board.is_checkmate?(@current_player.active_pieces,@opponent_player.active_pieces)
@@ -84,7 +84,6 @@ class Game
       else
         player_move = @black_player.generate_random_move
       end
-      p player_move
       if @@SPECIAL_COMMANDS.include?(player_move)
         if player_move == "castle"
           break if player_castle
@@ -95,8 +94,6 @@ class Game
         if @opponent_player.space_occupied?(player_move[2]) && player_move[0] == "pawn"
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2],true)
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2],true))
-          p valid_move
-          p clear_path
         else
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
@@ -156,7 +153,7 @@ class Game
           end
           @current_player.make_move('king', @current_player.active_pieces['king'][0].position, path[2])
           @current_player.make_move('rook', path[path.length-1], path[1])
-          @board.update_board(@current_player.active_pieces, @opponent_player.active_pieces)
+          update_board
           return true
         end
       end
@@ -186,10 +183,14 @@ class Game
 
       @current_player.active_pieces["pawn"].delete(pawn)
       @current_player.active_pieces[promotion_type].push(promotion_piece)
-      @board.update_board(white_player.active_pieces, @black_player.active_pieces)
+      update_board
       return true
     end
     return false
+  end
+
+  def update_board
+    @board.update_board(@white_player.active_pieces,@black_player.active_pieces)
   end
 
   private

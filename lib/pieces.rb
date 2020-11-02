@@ -366,7 +366,6 @@ class Pawn < GamePiece
         end 
       end
     else
-      p "last"
       false
     end
   end
