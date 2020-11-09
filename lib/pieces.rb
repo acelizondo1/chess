@@ -328,10 +328,12 @@ end
 
 class Pawn < GamePiece
   attr_reader :display_code
+  attr_accessor :move_two
 
   def initialize(color,position)
     super(color, position)
     @first_move = true
+    @move_two = false
     @display_code = @color == "white" ? "\u265F" : "\u2659"
   end
 
@@ -371,8 +373,9 @@ class Pawn < GamePiece
   end
 
   def make_move(new_position)
-    super
+    @move_two = true if is_move_straight?(new_position) == 2
     @first_move = false if @first_move
+    super
   end
 
   def map_path(new_position, overtake=false)

@@ -59,6 +59,24 @@ describe Game do
       game.play_game
       expect(game.board.board['h'][4].class).to eql(Queen)
     end
+
+    it "allows a valid en passant" do
+      allow(game).to receive(:gets).and_return("pawn a2 a4","pawn a7 a6","pawn a4 a5","pawn b7 b5","pawn a5 b6","yield")
+      game.play_game
+      
+      expect(game.board.board['b'][4]).to eql(nil)
+      expect(game.board.board['b'][5].color).to eql("white")
+      expect(game.winner.color).to eql("white")
+    end
+
+    it "doesn't allow an en passant move if not done immediately" do
+      allow(game).to receive(:gets).and_return("pawn a2 a4","pawn a7 a6","pawn a4 a5","pawn b7 b5","knight g1 h3","pawn c7 c5","pawn a5 b6","yield")
+      game.play_game
+
+      expect(game.board.board['b'][4].color).to eql("black")
+      expect(game.board.board['a'][4].color).to eql("white")
+      expect(game.winner.color).to eql("black")
+    end
   end
 
   describe "#process_move" do

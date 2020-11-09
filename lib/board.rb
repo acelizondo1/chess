@@ -47,8 +47,10 @@ attr_reader :board
 
     for column in "a".."h"
       for row in 0..7
-        if @board[column][row]
-          @board[column][row] = nil unless @board[column][row].position == [column, row+1]
+        piece = @board[column][row]
+        type = piece.class.to_s.downcase
+        if piece
+          @board[column][row] = nil unless (white_pieces[type].include?(piece) || black_pieces[type].include?(piece)) && piece.position == [column, row+1]
         end
       end
     end

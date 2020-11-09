@@ -79,6 +79,12 @@ attr_reader :color, :active_pieces, :eliminated_pieces
     false
   end
 
+  def remove_move_two
+    active_pieces["pawn"].each do |piece|
+      piece.move_two = false if piece.move_two
+    end
+  end
+
   private
   def load_start_pieces
     pieces = {}

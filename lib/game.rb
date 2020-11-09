@@ -41,6 +41,7 @@ class Game
 
   def play_game
     until @winner
+      @current_player.remove_move_two
       @board.display_board(@white_player.eliminated_pieces,@black_player.eliminated_pieces)
       player_move = get_valid_move
       if player_move.class == Array
@@ -60,6 +61,8 @@ class Game
     end
     if @opponent_player.space_occupied?(player_move[2])
       @opponent_player.eliminate_piece(player_move[2])
+    elsif player_move[0] == "pawn" && en_passant_valid?(@current_player.find_piece("pawn",player_move[1]),player_move[2])
+      @opponent_player.eliminate_piece([player_move[2][0],player_move[1][1]])
     end
     @current_player.make_move(player_move[0],player_move[1],player_move[2])
     update_board
@@ -94,6 +97,10 @@ class Game
         if @opponent_player.space_occupied?(player_move[2]) && player_move[0] == "pawn"
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2],true)
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2],true))
+        elsif player_move[0] == "pawn" && en_passant_valid?(@current_player.find_piece("pawn",player_move[1]),player_move[2])
+          p "in valid_move elsif"
+          valid_move = true
+          clear_path = true
         else
           valid_move = @current_player.is_valid_move?(player_move[0],player_move[1],player_move[2])
           clear_path = @board.clear_path?(@current_player.map_path(player_move[0],player_move[1],player_move[2]))
@@ -233,8 +240,21 @@ class Game
     end
   end
 
+  def en_passant_valid?(capturing_pawn, new_position)
+    if (capturing_pawn.color == "white" && capturing_pawn.position[1] == 5) || (capturing_pawn.color == "black" && capturing_pawn.position[1] == 4)
+      capture_piece_position = [new_position[0],capturing_pawn.position[1]]
+      capture_piece = @opponent_player.find_piece("pawn",capture_piece_position)
+      if @opponent_player.space_occupied?(capture_piece_position) && capture_piece.class == Pawn
+        return true if capture_piece.move_two
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
   def save_game
-    p "save"
     File.open("save_game.yml", "w") do |file|
       data = YAML.dump ({
           :white_player => @white_player,
